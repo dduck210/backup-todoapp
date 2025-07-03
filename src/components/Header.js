@@ -39,7 +39,12 @@ const Header = () => {
     <header className="bg-blue-600 dark:bg-gray-900 text-white p-4 shadow transition">
       <div className="container mx-auto flex items-center justify-between">
         <h1 className="text-2xl font-bold">
-          <Link to="/">Todo App</Link>
+          <Link
+            to="/"
+            className="hover:text-blue-200 dark:hover:text-gray-300 transition"
+          >
+            Todo App
+          </Link>
         </h1>
         <nav className="flex gap-3 items-center flex-wrap">
           <button

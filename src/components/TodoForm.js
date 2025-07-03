@@ -46,7 +46,7 @@ const TodoForm = ({ onAdd }) => {
         className="px-6 py-2 mb-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-base font-semibold shadow transition-all duration-150 w-full sm:w-auto"
         type="submit"
       >
-        Add
+        Add Task
       </button>
     </form>
   );

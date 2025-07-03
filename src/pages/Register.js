@@ -48,12 +48,12 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 px-2">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 px-2">
       <form
-        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md sm:max-w-lg md:max-w-xl transition-all"
+        className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md sm:max-w-lg md:max-w-xl transition-all"
         onSubmit={handleRegister}
       >
-        <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 tracking-tight">
+        <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 dark:text-gray-100 tracking-tight">
           Register
         </h2>
         {error && (
@@ -62,14 +62,14 @@ const Register = () => {
           </div>
         )}
         <input
-          className="w-full mb-4 px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          className="w-full mb-4 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           placeholder="Username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
           autoComplete="username"
         />
         <input
-          className="w-full mb-4 px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          className="w-full mb-4 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           type="password"
           placeholder="Password"
           value={password}
@@ -77,7 +77,7 @@ const Register = () => {
           autoComplete="new-password"
         />
         <input
-          className="w-full mb-6 px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          className="w-full mb-6 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           type="password"
           placeholder="Re-enter password"
           value={confirmPassword}
@@ -90,11 +90,11 @@ const Register = () => {
         >
           Register
         </button>
-        <div className="mt-6 text-center text-sm text-gray-600">
+        <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-100">
           Already have an account?{" "}
           <button
             type="button"
-            className="text-blue-600 hover:underline font-semibold"
+            className="text-blue-600 dark:text-blue-300 hover:underline font-semibold"
             onClick={() => navigate("/login")}
           >
             Login

@@ -34,12 +34,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 px-2">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 px-2">
       <form
-        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md sm:max-w-lg md:max-w-xl transition-all"
+        className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md sm:max-w-lg md:max-w-xl transition-all"
         onSubmit={handleLogin}
       >
-        <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 tracking-tight">
+        <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 dark:text-gray-100 tracking-tight">
           Login
         </h2>
         {error && (
@@ -48,14 +48,14 @@ const Login = () => {
           </div>
         )}
         <input
-          className="w-full mb-4 px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          className="w-full mb-4 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           placeholder="Username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
           autoComplete="username"
         />
         <input
-          className="w-full mb-6 px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          className="w-full mb-6 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           type="password"
           placeholder="Password"
           value={password}
@@ -68,11 +68,11 @@ const Login = () => {
         >
           Login
         </button>
-        <div className="mt-6 text-center text-sm text-gray-700 font-semibold">
+        <div className="mt-6 text-center text-sm text-gray-700 dark:text-gray-100 font-semibold">
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-blue-600 underline hover:text-blue-800 transition font-semibold"
+            className="text-blue-600 dark:text-blue-300 underline hover:text-blue-800 dark:hover:text-blue-400 transition font-semibold"
           >
             Register
           </Link>
