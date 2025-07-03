@@ -5,7 +5,7 @@ import SearchTask from "../components/SearchTask";
 import { CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 
-const API_URL = "http://localhost:3001/todos";
+const API_URL = "https://todo-backend-6c6i.onrender.com/todos";
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
@@ -336,8 +336,8 @@ const Home = () => {
                                 todo.completed === true
                                   ? "bg-green-100 border-green-500"
                                   : todo.completed === false
-                                    ? "bg-orange-100 border-orange-500"
-                                    : "bg-yellow-100 border-yellow-500"
+                                  ? "bg-orange-100 border-orange-500"
+                                  : "bg-yellow-100 border-yellow-500"
                               }
                             `}
                             title="Toggle status"
@@ -409,8 +409,8 @@ const Home = () => {
               selectedTask.completed === undefined
                 ? "Not processed yet"
                 : selectedTask.completed === false
-                  ? "Pending"
-                  : "Completed"}
+                ? "Pending"
+                : "Completed"}
             </div>
             <button
               className="mt-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-medium"
