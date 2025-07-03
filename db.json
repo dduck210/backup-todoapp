@@ -1,0 +1,286 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "todo": "Complete the ReactJS course",
+      "completed": null,
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "todo": "Develop a data management (CRUD) application",
+      "completed": null,
+      "userId": 1
+    },
+    {
+      "id": "3",
+      "todo": "Research Redux documentation",
+      "completed": false,
+      "userId": 2
+    },
+    {
+      "id": "4",
+      "todo": "Finish assigned exercises",
+      "completed": null,
+      "userId": 2
+    },
+    {
+      "id": "5",
+      "todo": "Send notification emails to clients",
+      "completed": true,
+      "userId": 1
+    },
+    {
+      "id": "6",
+      "todo": "Update personal profile information",
+      "completed": false,
+      "userId": 3
+    },
+    {
+      "id": "7",
+      "todo": "Prepare project presentation materials",
+      "completed": false,
+      "userId": 2
+    },
+    {
+      "id": "8",
+      "todo": "Watch online programming tutorials",
+      "completed": null,
+      "userId": 4
+    },
+    {
+      "id": "9",
+      "todo": "Review Javascript fundamentals",
+      "completed": false,
+      "userId": 4
+    },
+    {
+      "id": "10",
+      "todo": "Monitor and update project progress",
+      "completed": false,
+      "userId": 5
+    },
+    {
+      "id": "11",
+      "todo": "Connect with colleagues over dinner",
+      "completed": null,
+      "userId": 1
+    },
+    {
+      "id": "12",
+      "todo": "Exercise in the morning",
+      "completed": true,
+      "userId": 3
+    },
+    {
+      "id": "13",
+      "todo": "Read new self-development books",
+      "completed": true,
+      "userId": 1
+    },
+    {
+      "id": "14",
+      "todo": "Join project team discussions",
+      "completed": true,
+      "userId": 2
+    },
+    {
+      "id": "15",
+      "todo": "Attend online meetings via Zoom",
+      "completed": null,
+      "userId": 5
+    },
+    {
+      "id": "16",
+      "todo": "Review and evaluate teammates' source code",
+      "completed": true,
+      "userId": 3
+    },
+    {
+      "id": "17",
+      "todo": "Update personal work log",
+      "completed": false,
+      "userId": 1
+    },
+    {
+      "id": "18",
+      "todo": "Purchase essential work supplies",
+      "completed": null,
+      "userId": 4
+    },
+    {
+      "id": "19",
+      "todo": "Self-study to improve English proficiency",
+      "completed": true,
+      "userId": 2
+    },
+    {
+      "id": "20",
+      "todo": "Refer to new UI designs",
+      "completed": true,
+      "userId": 3
+    },
+    {
+      "id": "21",
+      "todo": "Inspect and troubleshoot application issues",
+      "completed": null,
+      "userId": 5
+    },
+    {
+      "id": "22",
+      "todo": "Optimize website performance",
+      "completed": false,
+      "userId": 1
+    },
+    {
+      "id": "03ac",
+      "todo": "Complete fundamentals of Python course",
+      "completed": true,
+      "userId": 1
+    },
+    {
+      "id": "4378",
+      "todo": "Advance advanced JavaScript skills",
+      "completed": null,
+      "userId": 1
+    },
+    {
+      "id": "1001",
+      "todo": "Document API endpoint specifications",
+      "completed": false,
+      "userId": 2
+    },
+    {
+      "id": "1002",
+      "todo": "Set up CI/CD pipelines on GitLab",
+      "completed": true,
+      "userId": 3
+    },
+    {
+      "id": "1003",
+      "todo": "Refactor authentication module",
+      "completed": null,
+      "userId": 4
+    },
+    {
+      "id": "1004",
+      "todo": "Review peer pull requests",
+      "completed": false,
+      "userId": 5
+    },
+    {
+      "id": "1005",
+      "todo": "Update project readme file",
+      "completed": true,
+      "userId": 1
+    },
+    {
+      "id": "1006",
+      "todo": "Perform database schema migration",
+      "completed": null,
+      "userId": 2
+    },
+    {
+      "id": "1007",
+      "todo": "Analyze user feedback for new features",
+      "completed": true,
+      "userId": 3
+    },
+    {
+      "id": "1008",
+      "todo": "Implement responsive UI components",
+      "completed": false,
+      "userId": 4
+    },
+    {
+      "id": "1009",
+      "todo": "Integrate payment gateway APIs",
+      "completed": null,
+      "userId": 5
+    },
+    {
+      "id": "1010",
+      "todo": "Conduct application security scan",
+      "completed": true,
+      "userId": 1
+    },
+    {
+      "id": "1011",
+      "todo": "Organize sprint retrospective meeting",
+      "completed": null,
+      "userId": 2
+    },
+    {
+      "id": "1012",
+      "todo": "Export weekly analytics report",
+      "completed": false,
+      "userId": 3
+    },
+    {
+      "id": "1013",
+      "todo": "Design UML diagrams for new modules",
+      "completed": null,
+      "userId": 4
+    },
+    {
+      "id": "1014",
+      "todo": "Test cross-browser compatibility",
+      "completed": true,
+      "userId": 5
+    },
+    {
+      "id": "1015",
+      "todo": "Configure logging and monitoring tools",
+      "completed": null,
+      "userId": 1
+    },
+    {
+      "id": "1016",
+      "todo": "Update version dependencies",
+      "completed": true,
+      "userId": 2
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123456"
+    },
+    {
+      "id": "f02c",
+      "username": "admin1",
+      "password": "1"
+    },
+    {
+      "id": "6315",
+      "username": "admin2",
+      "password": "1"
+    },
+    {
+      "id": "2747",
+      "username": "admin3",
+      "password": "1"
+    },
+    {
+      "id": "07af",
+      "username": "admin5",
+      "password": "1"
+    },
+    {
+      "id": "a5a4",
+      "username": "admin10",
+      "password": "123456"
+    },
+    {
+      "id": "c2a5",
+      "username": "admin11",
+      "password": "123456789"
+    },
+    {
+      "id": "fe0c",
+      "username": "admin12",
+      "password": "123456789"
+    }
+  ]
+}
