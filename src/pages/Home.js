@@ -30,7 +30,6 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [searchUserId, setSearchUserId] = useState("");
   const [searchUsername, setSearchUsername] = useState("");
-
   const [selectedIds, setSelectedIds] = useState([]);
   const [showBatchEdit, setShowBatchEdit] = useState(false);
   const [batchEditValue, setBatchEditValue] = useState("");
@@ -62,11 +61,9 @@ const Home = () => {
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
-
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
   useEffect(() => {
     let timerId;
     if (notification) {
@@ -74,7 +71,6 @@ const Home = () => {
     }
     return () => clearTimeout(timerId);
   }, [notification]);
-
   useEffect(() => {
     setEditingId(null);
   }, [search, filter, searchUserId, searchUsername]);
@@ -149,6 +145,7 @@ const Home = () => {
     }
   };
 
+  // MULTI select và thao tác hàng loạt, cho cả user bình thường
   const handleSelectTask = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
@@ -160,7 +157,13 @@ const Home = () => {
       return;
     try {
       await Promise.all(
-        selectedIds.map((id) => axios.delete(`${API_URL}/${id}`))
+        selectedIds.map((id) => {
+          const found = todos.find((todo) => todo.id === id);
+          // user không phải admin thì chỉ xoá được task của mình
+          if (isAdmin || String(found?.userId) === String(userId))
+            return axios.delete(`${API_URL}/${id}`);
+          return null;
+        })
       );
       setSelectedIds([]);
       await fetchData();
@@ -170,12 +173,13 @@ const Home = () => {
     }
   };
 
+  // user thường chỉ update được task của chính họ, admin all
   const handleBulkStatus = async (status) => {
     try {
       await Promise.all(
         selectedIds.map(async (id) => {
           const found = todos.find((t) => t.id === id);
-          if (found) {
+          if (found && (isAdmin || String(found.userId) === String(userId))) {
             await axios.put(`${API_URL}/${id}`, {
               ...found,
               completed: status,
@@ -199,7 +203,7 @@ const Home = () => {
       await Promise.all(
         selectedIds.map(async (id) => {
           const found = todos.find((t) => t.id === id);
-          if (found) {
+          if (found && (isAdmin || String(found.userId) === String(userId))) {
             await axios.put(`${API_URL}/${id}`, {
               ...found,
               todo: batchEditValue,
@@ -251,7 +255,7 @@ const Home = () => {
   }
 
   return (
-    <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800 rounded-xl transition">
+    <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800 rounded-xl transition pb-5">
       <div className="w-full flex-1 bg-white dark:bg-gray-700 shadow-xl p-8 mt-0 py-5 transition">
         <div className="mb-0">
           <SearchTask onSearch={setSearch} />
@@ -330,45 +334,43 @@ const Home = () => {
           currentUserId={userId}
         />
 
-        {isAdmin && (
-          <div className="flex gap-3 mb-4 mt-6">
-            <button
-              className="px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50"
-              onClick={handleBulkDelete}
-              disabled={selectedIds.length === 0}
-            >
-              Delete Selected
-            </button>
-            <button
-              className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50"
-              onClick={() => handleBulkStatus(true)}
-              disabled={selectedIds.length === 0}
-            >
-              Mark Completed
-            </button>
-            <button
-              className="px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50"
-              onClick={() => handleBulkStatus(false)}
-              disabled={selectedIds.length === 0}
-            >
-              Mark Uncompleted
-            </button>
-            <button
-              className="px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50"
-              onClick={() => handleBulkStatus(null)}
-              disabled={selectedIds.length === 0}
-            >
-              Mark New
-            </button>
-            <button
-              className="px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-              onClick={() => setShowBatchEdit(true)}
-              disabled={selectedIds.length === 0}
-            >
-              Edit Selected
-            </button>
-          </div>
-        )}
+        <div className="flex gap-3 mb-4 mt-6">
+          <button
+            className="px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50"
+            onClick={handleBulkDelete}
+            disabled={selectedIds.length === 0}
+          >
+            Delete Selected
+          </button>
+          <button
+            className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+            onClick={() => handleBulkStatus(true)}
+            disabled={selectedIds.length === 0}
+          >
+            Mark Completed
+          </button>
+          <button
+            className="px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50"
+            onClick={() => handleBulkStatus(false)}
+            disabled={selectedIds.length === 0}
+          >
+            Mark Uncompleted
+          </button>
+          <button
+            className="px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50"
+            onClick={() => handleBulkStatus(null)}
+            disabled={selectedIds.length === 0}
+          >
+            Mark New
+          </button>
+          <button
+            className="px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+            onClick={() => setShowBatchEdit(true)}
+            disabled={selectedIds.length === 0}
+          >
+            Edit Selected
+          </button>
+        </div>
 
         {notification && (
           <div
