@@ -197,32 +197,32 @@ const Home = () => {
     }
   };
 
-  const handleBulkEdit = async () => {
-    if (!batchEditValue || batchEditValue.trim() === "") {
-      toast.error("Please enter content for tasks!");
-      return;
-    }
-    try {
-      await Promise.all(
-        selectedIds.map(async (id) => {
-          const found = todos.find((t) => t.id === id);
-          if (found && (isAdmin || String(found.userId) === String(userId))) {
-            await axios.put(`${API_URL}/${id}`, {
-              ...found,
-              todo: batchEditValue,
-            });
-          }
-        })
-      );
-      // setShowBatchEdit(false);
-      setSelectedIds([]);
-      setBatchEditValue("");
-      await fetchData();
-      toast.success("Edited all selected tasks!");
-    } catch (err) {
-      toast.error("Bulk edit failed!");
-    }
-  };
+  // const handleBulkEdit = async () => {
+  //   if (!batchEditValue || batchEditValue.trim() === "") {
+  //     toast.error("Please enter content for tasks!");
+  //     return;
+  //   }
+  //   try {
+  //     await Promise.all(
+  //       selectedIds.map(async (id) => {
+  //         const found = todos.find((t) => t.id === id);
+  //         if (found && (isAdmin || String(found.userId) === String(userId))) {
+  //           await axios.put(`${API_URL}/${id}`, {
+  //             ...found,
+  //             todo: batchEditValue,
+  //           });
+  //         }
+  //       })
+  //     );
+  //     // setShowBatchEdit(false);
+  //     setSelectedIds([]);
+  //     setBatchEditValue("");
+  //     await fetchData();
+  //     toast.success("Edited all selected tasks!");
+  //   } catch (err) {
+  //     toast.error("Bulk edit failed!");
+  //   }
+  // };
 
   const filteredTodos = todos.filter((todo) => {
     const matchUser =
