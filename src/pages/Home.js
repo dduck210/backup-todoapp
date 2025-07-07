@@ -252,7 +252,7 @@ const Home = () => {
   }
 
   return (
-    <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800 rounded-xl transition pb-5">
+    <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800 rounded-xl transition">
       <div className="w-full flex-1 bg-white dark:bg-gray-700 shadow-xl p-8 mt-0 py-5 transition">
         <div className="mb-0">
           <SearchTask onSearch={setSearch} />
@@ -273,7 +273,7 @@ const Home = () => {
           )}
         </div>
 
-        <div className="flex gap-3 mb-6 flex-wrap">
+        <div className="flex gap-3 mb-6 flex-wrap mt-6">
           <button
             className={`px-5 py-2 rounded-lg transition font-medium
               ${
@@ -331,37 +331,37 @@ const Home = () => {
           currentUserId={userId}
         />
 
-        <div className="flex gap-3 mb-4 mt-6">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mb-4 mt-6">
           <button
-            className="px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50"
+            className="px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50 w-full sm:w-auto"
             onClick={handleBulkDelete}
             disabled={selectedIds.length === 0}
           >
             Delete Selected
           </button>
           <button
-            className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+            className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
             onClick={() => handleBulkStatus(true)}
             disabled={selectedIds.length === 0}
           >
             Mark Completed
           </button>
           <button
-            className="px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50"
+            className="px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
             onClick={() => handleBulkStatus(false)}
             disabled={selectedIds.length === 0}
           >
             Mark Uncompleted
           </button>
           <button
-            className="px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50"
+            className="px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50 w-full sm:w-auto"
             onClick={() => handleBulkStatus(null)}
             disabled={selectedIds.length === 0}
           >
             Mark New
           </button>
           <button
-            className="px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+            className="px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
             onClick={() => setShowBatchEdit(true)}
             disabled={selectedIds.length === 0}
           >

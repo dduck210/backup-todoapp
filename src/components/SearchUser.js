@@ -1,6 +1,6 @@
 const SearchUser = ({ users, value, onChange }) => {
   return (
-    <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 w-full">
+    <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 w-full">
       <label
         className="font-semibold text-base text-gray-800 dark:text-gray-100 whitespace-nowrap"
         htmlFor="user-select"
