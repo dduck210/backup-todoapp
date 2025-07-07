@@ -16,7 +16,6 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
     }
   };
 
-  // icon trạng thái
   let statusIcon = null;
   if (todo.completed === undefined || todo.completed === null) {
     statusIcon = <span className="text-yellow-500 font-bold text-lg">?</span>;
