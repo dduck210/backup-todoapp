@@ -145,7 +145,6 @@ const Home = () => {
     }
   };
 
-  // MULTI select và thao tác hàng loạt, cho cả user bình thường
   const handleSelectTask = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
@@ -159,7 +158,6 @@ const Home = () => {
       await Promise.all(
         selectedIds.map((id) => {
           const found = todos.find((todo) => todo.id === id);
-          // user không phải admin thì chỉ xoá được task của mình
           if (isAdmin || String(found?.userId) === String(userId))
             return axios.delete(`${API_URL}/${id}`);
           return null;
@@ -173,7 +171,6 @@ const Home = () => {
     }
   };
 
-  // user thường chỉ update được task của chính họ, admin all
   const handleBulkStatus = async (status) => {
     try {
       await Promise.all(
@@ -227,7 +224,7 @@ const Home = () => {
     const matchFilter =
       (filter === "completed" && todo.completed === true) ||
       (filter === "uncompleted" && todo.completed === false) ||
-      (filter === "notprocessed" &&
+      (filter === "new" &&
         (todo.completed === null || todo.completed === undefined)) ||
       filter === "all";
     const matchSearch = todo.todo
@@ -316,12 +313,12 @@ const Home = () => {
           <button
             className={`px-5 py-2 rounded-lg transition font-medium
               ${
-                filter === "notprocessed"
+                filter === "new"
                   ? "bg-yellow-400 text-white shadow"
                   : "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-yellow-50 dark:hover:bg-gray-600"
               }
             `}
-            onClick={() => setFilter("notprocessed")}
+            onClick={() => setFilter("new")}
           >
             New
           </button>
