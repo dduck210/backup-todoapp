@@ -31,8 +31,10 @@ const Home = () => {
   const [searchUserId, setSearchUserId] = useState("");
   const [searchUsername, setSearchUsername] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
-  const [showBatchEdit, setShowBatchEdit] = useState(false);
+  // const [showBatchEdit, setShowBatchEdit] = useState(false);
   const [batchEditValue, setBatchEditValue] = useState("");
+
+  const [changingStatusId, setChangingStatusId] = useState(null);
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -107,19 +109,23 @@ const Home = () => {
     }
   };
 
+  // block loading double click
   const handleToggle = async (id, completed) => {
-    const found = todos.find((todo) => todo.id === id);
-    if (!isAdmin && String(found?.userId) !== String(userId)) {
-      toast.error("You can only update your own tasks!");
-      return;
-    }
+    setChangingStatusId(id);
     try {
-      const updated = { ...found, completed };
-      await axios.put(`${API_URL}/${id}`, updated);
+      const found = todos.find((todo) => todo.id === id);
+      if (!isAdmin && String(found?.userId) !== String(userId)) {
+        toast.error("You can only update your own tasks!");
+        setChangingStatusId(null);
+        return;
+      }
+      await axios.put(`${API_URL}/${id}`, { ...found, completed });
       await fetchData();
       toast.success("Status updated!");
     } catch {
       setNotification("Update status failed!");
+    } finally {
+      setChangingStatusId(null);
     }
   };
 
@@ -208,7 +214,7 @@ const Home = () => {
           }
         })
       );
-      setShowBatchEdit(false);
+      // setShowBatchEdit(false);
       setSelectedIds([]);
       setBatchEditValue("");
       await fetchData();
@@ -360,13 +366,13 @@ const Home = () => {
           >
             Mark New
           </button>
-          <button
+          {/* <button
             className="px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
-            onClick={() => setShowBatchEdit(true)}
+            // onClick={() => setShowBatchEdit(true)}
             disabled={selectedIds.length === 0}
           >
             Edit Selected
-          </button>
+          </button> */}
         </div>
 
         {notification && (
@@ -479,6 +485,7 @@ const Home = () => {
                       <button
                         className={
                           STATUS_BUTTON_STYLE +
+                          (changingStatusId === todo.id ? " opacity-50" : "") +
                           " " +
                           (todo.completed === true
                             ? "bg-green-50 text-green-600 border-green-500"
@@ -489,6 +496,7 @@ const Home = () => {
                         style={{ margin: "0 auto" }}
                         title="Click to change status"
                         onClick={() => {
+                          if (changingStatusId === todo.id) return;
                           let nextStatus;
                           if (
                             todo.completed === undefined ||
@@ -502,12 +510,16 @@ const Home = () => {
                           }
                           handleToggle(todo.id, nextStatus);
                         }}
+                        disabled={changingStatusId === todo.id}
                       >
-                        {todo.completed === null || todo.completed === undefined
-                          ? "New"
-                          : todo.completed === false
-                            ? "Uncompleted"
-                            : "Completed"}
+                        {changingStatusId === todo.id
+                          ? "..."
+                          : todo.completed === null ||
+                              todo.completed === undefined
+                            ? "New"
+                            : todo.completed === false
+                              ? "Uncompleted"
+                              : "Completed"}
                       </button>
                     </td>
                     <td className="px-2 pr-4 py-3 border-b text-center align-middle w-1 whitespace-nowrap">
@@ -586,7 +598,34 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {showBatchEdit && (
+
+      {/* <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
+          <h4 className="font-bold mb-2">Edit Selected Tasks</h4>
+          <textarea
+            className="border rounded px-2 py-1 w-full min-h-[60px] dark:bg-gray-900 dark:text-white"
+            value={batchEditValue}
+            onChange={(e) => setBatchEditValue(e.target.value)}
+            placeholder="Enter new task content"
+          />
+          <div className="mt-4 flex gap-2">
+            <button
+              className="bg-blue-600 text-white px-4 py-2 rounded"
+              onClick={handleBulkEdit}
+            >
+              Save All
+            </button>
+            <button
+              className="bg-gray-500 text-white px-4 py-2 rounded"
+              // onClick={() => setShowBatchEdit(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div> */}
+
+      {/* {showBatchEdit && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
             <h4 className="font-bold mb-2">Edit Selected Tasks</h4>
@@ -612,7 +651,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {showDetail && selectedTask && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
