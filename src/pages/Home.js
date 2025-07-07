@@ -32,7 +32,7 @@ const Home = () => {
   const [searchUsername, setSearchUsername] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   // const [showBatchEdit, setShowBatchEdit] = useState(false);
-  const [batchEditValue, setBatchEditValue] = useState("");
+  // const [batchEditValue, setBatchEditValue] = useState("");
 
   const [changingStatusId, setChangingStatusId] = useState(null);
 
