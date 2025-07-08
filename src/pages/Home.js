@@ -48,7 +48,18 @@ const Home = () => {
           (todo) => String(todo.userId) === String(userId)
         );
       }
-      setTodos([...todoData].sort((a, b) => b.id - a.id));
+      console.log("todoData filtered:", todoData);
+
+      if (todoData.length && todoData[0].createdAt) {
+        setTodos(
+          [...todoData].sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
+      } else {
+        setTodos([...todoData].sort((a, b) => Number(b.id) - Number(a.id)));
+      }
+
       setLoading(false);
     } catch (error) {
       setNotification("Unable to load data, please try again!");
