@@ -26,12 +26,12 @@ const SearchTask = ({ onSearch }) => {
         onChange={handleChange}
         maxLength={100}
       />
-      <button
+      {/* <button
         type="submit"
         className="h-12 w-[130px] px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition mb-4"
       >
         Search
-      </button>
+      </button> */}
     </form>
   );
 };

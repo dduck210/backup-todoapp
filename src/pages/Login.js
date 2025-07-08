@@ -8,30 +8,32 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     if (!username || !password) {
       setError("Please enter complete information");
-      // toast.error("Login failed!");
+      setIsSubmitting(false);
       return;
     }
     const user = await getUserByUsername(username);
     if (!user) {
       setError("Username does not exist");
-      // toast.warning("Username does not exist");
+      setIsSubmitting(false);
       return;
     }
     if (user.password !== password) {
       setError("Wrong account or password");
-      // toast.warning("Wrong account or password");
+      setIsSubmitting(false);
       return;
     }
     localStorage.setItem("token", user.id);
-
     localStorage.setItem("user", JSON.stringify(user));
-
     toast.success("Login Successful!");
+    setIsSubmitting(false);
     navigate("/");
   };
 
@@ -67,8 +69,9 @@ const Login = () => {
         <button
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow transition-all text-lg"
           type="submit"
+          disabled={isSubmitting}
         >
-          Login
+          {isSubmitting ? "Logging in..." : "Login"}
         </button>
         <div className="mt-6 text-center text-sm text-gray-700 dark:text-gray-100 font-semibold">
           Don't have an account?{" "}

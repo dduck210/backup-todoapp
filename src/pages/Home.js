@@ -84,6 +84,12 @@ const Home = () => {
     setEditingId(null);
   }, [search, filter, searchUserId, searchUsername]);
 
+  useEffect(() => {
+    setSelectedIds((prev) =>
+      prev.filter((id) => todos.some((todo) => todo.id === id))
+    );
+  }, [todos]);
+
   const handleAdd = async (text, assignedUserId) => {
     try {
       setLoading(true);
@@ -100,6 +106,7 @@ const Home = () => {
       setLoading(false);
     }
   };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
@@ -109,7 +116,9 @@ const Home = () => {
       toast.error("Cannot delete task!");
     }
   };
+
   const handleToggle = async (id, completed) => {
+    if (changingStatusId !== null) return;
     setChangingStatusId(id);
     try {
       const found = todos.find((todo) => todo.id === id);
