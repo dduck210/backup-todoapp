@@ -21,12 +21,12 @@ const Footer = () => {
           </span>
         </div>
         <nav className="flex flex-wrap gap-2 sm:gap-3 items-center justify-center w-full sm:w-auto text-sm">
-          <Link
+          {/* <Link
             to="/"
             className="hover:underline hover:text-blue-200 dark:hover:text-gray-300 transition"
           >
             Home
-          </Link>
+          </Link> */}
           <a
             href="https://facebook.com/dduck.210"
             target="_blank"

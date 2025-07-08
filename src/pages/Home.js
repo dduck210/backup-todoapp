@@ -17,7 +17,6 @@ const Home = () => {
   const user = rawUser ? JSON.parse(rawUser) : null;
   const isAdmin = user?.role === "admin";
   const userId = user?.id;
-
   const [todos, setTodos] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,9 +30,6 @@ const Home = () => {
   const [searchUserId, setSearchUserId] = useState("");
   const [searchUsername, setSearchUsername] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
-  // const [showBatchEdit, setShowBatchEdit] = useState(false);
-  // const [batchEditValue, setBatchEditValue] = useState("");
-
   const [changingStatusId, setChangingStatusId] = useState(null);
 
   const fetchUsers = useCallback(async () => {
@@ -52,7 +48,7 @@ const Home = () => {
           (todo) => String(todo.userId) === String(userId)
         );
       }
-      setTodos(todoData);
+      setTodos([...todoData].sort((a, b) => b.id - a.id));
       setLoading(false);
     } catch (error) {
       setNotification("Unable to load data, please try again!");
@@ -80,12 +76,12 @@ const Home = () => {
   const handleAdd = async (text, assignedUserId) => {
     try {
       setLoading(true);
-      await axios.post(API_URL, {
+      const res = await axios.post(API_URL, {
         todo: text,
         completed: null,
         userId: isAdmin ? assignedUserId : userId,
       });
-      await fetchData();
+      setTodos((prev) => [res.data, ...prev]);
       toast.success("Added task successfully!");
     } catch {
       setNotification("Error adding task!");
@@ -93,13 +89,7 @@ const Home = () => {
       setLoading(false);
     }
   };
-
   const handleDelete = async (id) => {
-    const found = todos.find((todo) => todo.id === id);
-    if (!isAdmin && String(found?.userId) !== String(userId)) {
-      toast.error("You can only delete your own tasks!");
-      return;
-    }
     try {
       await axios.delete(`${API_URL}/${id}`);
       await fetchData();
@@ -108,17 +98,10 @@ const Home = () => {
       toast.error("Cannot delete task!");
     }
   };
-
-  // block loading double click
   const handleToggle = async (id, completed) => {
     setChangingStatusId(id);
     try {
       const found = todos.find((todo) => todo.id === id);
-      if (!isAdmin && String(found?.userId) !== String(userId)) {
-        toast.error("You can only update your own tasks!");
-        setChangingStatusId(null);
-        return;
-      }
       await axios.put(`${API_URL}/${id}`, { ...found, completed });
       await fetchData();
       toast.success("Status updated!");
@@ -128,13 +111,8 @@ const Home = () => {
       setChangingStatusId(null);
     }
   };
-
   const handleEdit = async (id, text) => {
     const found = todos.find((todo) => todo.id === id);
-    if (!isAdmin && String(found?.userId) !== String(userId)) {
-      toast.error("You can only update your own tasks!");
-      return false;
-    }
     if (!text || text === "") {
       toast.error("Please enter task!");
       return false;
@@ -150,13 +128,11 @@ const Home = () => {
       return false;
     }
   };
-
   const handleSelectTask = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
-
   const handleBulkDelete = async () => {
     if (!window.confirm("Are you sure you want to delete the selected tasks?"))
       return;
@@ -176,7 +152,6 @@ const Home = () => {
       toast.error("Bulk delete failed!");
     }
   };
-
   const handleBulkStatus = async (status) => {
     try {
       await Promise.all(
@@ -197,33 +172,6 @@ const Home = () => {
     }
   };
 
-  // const handleBulkEdit = async () => {
-  //   if (!batchEditValue || batchEditValue.trim() === "") {
-  //     toast.error("Please enter content for tasks!");
-  //     return;
-  //   }
-  //   try {
-  //     await Promise.all(
-  //       selectedIds.map(async (id) => {
-  //         const found = todos.find((t) => t.id === id);
-  //         if (found && (isAdmin || String(found.userId) === String(userId))) {
-  //           await axios.put(`${API_URL}/${id}`, {
-  //             ...found,
-  //             todo: batchEditValue,
-  //           });
-  //         }
-  //       })
-  //     );
-  //     // setShowBatchEdit(false);
-  //     setSelectedIds([]);
-  //     setBatchEditValue("");
-  //     await fetchData();
-  //     toast.success("Edited all selected tasks!");
-  //   } catch (err) {
-  //     toast.error("Bulk edit failed!");
-  //   }
-  // };
-
   const filteredTodos = todos.filter((todo) => {
     const matchUser =
       !isAdmin || !searchUserId || String(todo.userId) === String(searchUserId);
@@ -236,13 +184,11 @@ const Home = () => {
     const matchSearch = todo.todo
       .toLowerCase()
       .includes(search.trim().toLowerCase());
-
     const userObj = users.find((u) => String(u.id) === String(todo.userId));
     const username = userObj ? userObj.username : "";
     const matchUsername =
       searchUsername.trim() === "" ||
       username.toLowerCase().includes(searchUsername.trim().toLowerCase());
-
     return matchUser && matchFilter && matchSearch && matchUsername;
   });
 
@@ -258,138 +204,129 @@ const Home = () => {
   }
 
   return (
-    <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800 rounded-xl transition">
-      <div className="w-full flex-1 bg-white dark:bg-gray-700 shadow-xl p-8 mt-0 py-5 transition">
-        <div className="mb-0">
-          <SearchTask onSearch={setSearch} />
-          {isAdmin && (
-            <SearchUser
-              users={users}
-              value={searchUserId}
-              onChange={setSearchUserId}
-            />
-          )}
-          {isAdmin && (
-            <div className="mt-2 mb-4">
+    <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800">
+      <div className="w-full flex-1 bg-white dark:bg-gray-700 shadow-xl p-0 transition">
+        <div className="w-full flex flex-col gap-3 py-4 px-2">
+          <div className="w-full flex flex-col md:flex-row md:gap-3 md:items-center md:justify-between max-w-md mx-auto md:max-w-full md:mx-0">
+            {isAdmin && (
+              <div className="w-full mb-2 md:mb-0 md:w-1/5">
+                <SearchUser
+                  users={users}
+                  value={searchUserId}
+                  onChange={setSearchUserId}
+                />
+              </div>
+            )}
+            <div
+              className={`w-full mb-2 md:mb-0 ${isAdmin ? "md:w-1/4" : "md:w-1/3"}`}
+            >
+              <SearchTask onSearch={setSearch} />
+            </div>
+            <div
+              className={`w-full mb-2 md:mb-0 ${isAdmin ? "md:w-1/4" : "md:w-1/3"}`}
+            >
               <SearchUsername
                 value={searchUsername}
                 onChange={setSearchUsername}
               />
             </div>
-          )}
-        </div>
+            <div className={`w-full md:w-1/3`}>
+              <TodoForm
+                onAdd={handleAdd}
+                users={users}
+                isAdmin={isAdmin}
+                currentUserId={userId}
+              />
+            </div>
+          </div>
 
-        <div className="flex gap-3 mb-6 flex-wrap mt-6">
-          <button
-            className={`px-5 py-2 rounded-lg transition font-medium
-              ${
+          <div className="max-w-md mx-auto md:max-w-full md:mx-0 flex flex-wrap gap-2 justify-center md:justify-start mb-2">
+            <button
+              className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
                 filter === "all"
                   ? "bg-blue-600 text-white shadow"
                   : "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-600"
-              }
-            `}
-            onClick={() => setFilter("all")}
-          >
-            All
-          </button>
-          <button
-            className={`px-5 py-2 rounded-lg transition font-medium
-              ${
+              }`}
+              onClick={() => setFilter("all")}
+            >
+              All
+            </button>
+            <button
+              className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
                 filter === "completed"
                   ? "bg-green-600 text-white shadow"
                   : "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-green-50 dark:hover:bg-gray-600"
-              }
-            `}
-            onClick={() => setFilter("completed")}
-          >
-            Completed
-          </button>
-          <button
-            className={`px-5 py-2 rounded-lg transition font-medium
-              ${
+              }`}
+              onClick={() => setFilter("completed")}
+            >
+              Completed
+            </button>
+            <button
+              className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
                 filter === "uncompleted"
                   ? "bg-orange-500 text-white shadow"
                   : "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-orange-50 dark:hover:bg-gray-600"
-              }
-            `}
-            onClick={() => setFilter("uncompleted")}
-          >
-            Uncompleted
-          </button>
-          <button
-            className={`px-5 py-2 rounded-lg transition font-medium
-              ${
+              }`}
+              onClick={() => setFilter("uncompleted")}
+            >
+              Uncompleted
+            </button>
+            <button
+              className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
                 filter === "new"
                   ? "bg-yellow-400 text-white shadow"
                   : "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-yellow-50 dark:hover:bg-gray-600"
-              }
-            `}
-            onClick={() => setFilter("new")}
-          >
-            New
-          </button>
-        </div>
-
-        <TodoForm
-          onAdd={handleAdd}
-          users={users}
-          isAdmin={isAdmin}
-          currentUserId={userId}
-        />
-
-        <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mb-4 mt-6">
-          <button
-            className="px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50 w-full sm:w-auto"
-            onClick={handleBulkDelete}
-            disabled={selectedIds.length === 0}
-          >
-            Delete Selected
-          </button>
-          <button
-            className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
-            onClick={() => handleBulkStatus(true)}
-            disabled={selectedIds.length === 0}
-          >
-            Mark Completed
-          </button>
-          <button
-            className="px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
-            onClick={() => handleBulkStatus(false)}
-            disabled={selectedIds.length === 0}
-          >
-            Mark Uncompleted
-          </button>
-          <button
-            className="px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50 w-full sm:w-auto"
-            onClick={() => handleBulkStatus(null)}
-            disabled={selectedIds.length === 0}
-          >
-            Mark New
-          </button>
-          {/* <button
-            className="px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-50 w-full sm:w-auto"
-            // onClick={() => setShowBatchEdit(true)}
-            disabled={selectedIds.length === 0}
-          >
-            Edit Selected
-          </button> */}
+              }`}
+              onClick={() => setFilter("new")}
+            >
+              New
+            </button>
+          </div>
+          <div className="max-w-md mx-auto md:max-w-full md:mx-0 flex flex-wrap gap-2 mb-2 justify-center md:justify-start">
+            <button
+              className="flex-1 px-3 py-2 bg-green-600 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
+              onClick={() => handleBulkStatus(true)}
+              disabled={selectedIds.length === 0}
+            >
+              Mark Completed
+            </button>
+            <button
+              className="flex-1 px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
+              onClick={() => handleBulkStatus(false)}
+              disabled={selectedIds.length === 0}
+            >
+              Mark Uncompleted
+            </button>
+            <button
+              className="flex-1 px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
+              onClick={() => handleBulkStatus(null)}
+              disabled={selectedIds.length === 0}
+            >
+              Mark New
+            </button>
+            <button
+              className="flex-1 px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
+              onClick={handleBulkDelete}
+              disabled={selectedIds.length === 0}
+            >
+              Delete Selected
+            </button>
+          </div>
         </div>
 
         {notification && (
           <div
-            className={`mb-6 p-3 text-base rounded-lg shadow text-center
-              ${
-                notification.includes("")
-                  ? "bg-green-50 border border-green-400 text-green-600 dark:bg-green-900 dark:text-green-200"
-                  : "bg-red-50 border border-red-400 text-red-600 dark:bg-red-900 dark:text-red-200"
-              }`}
+            className={`mb-2 p-3 text-base rounded-lg shadow text-center ${
+              notification.includes("")
+                ? "bg-green-50 border border-green-400 text-green-600 dark:bg-green-900 dark:text-green-200"
+                : "bg-red-50 border border-red-400 text-red-600 dark:bg-red-900 dark:text-red-200"
+            }`}
           >
             {notification}
           </div>
         )}
-
         <div className="rounded-lg shadow mt-0">
-          <div className="flex items-center justify-between px-4 py-2 bg-blue-100 dark:bg-gray-800 border border-b-0 border-blue-200 dark:border-gray-700 mt-6">
+          <div className="flex items-center justify-between px-4 py-2 bg-blue-100 dark:bg-gray-800 border border-b-0 border-blue-200 dark:border-gray-700">
             <h2 className="text-xl font-bold text-blue-700 dark:text-gray-100 tracking-wide">
               To-do List App
             </h2>
@@ -597,94 +534,39 @@ const Home = () => {
             </table>
           </div>
         </div>
+        {showDetail && selectedTask && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg min-w-[320px] max-w-[90vw]">
+              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+                Task Detail
+              </h3>
+              <div className="mb-2 text-gray-900 dark:text-gray-100">
+                <b>User:</b>{" "}
+                {users.find((u) => String(u.id) === String(selectedTask.userId))
+                  ?.username || selectedTask.userId}
+              </div>
+              <div className="mb-2 text-gray-900 dark:text-gray-100">
+                <b>Task:</b> {selectedTask.todo}
+              </div>
+              <div className="mb-4 text-gray-900 dark:text-gray-100">
+                <b>Status:</b>{" "}
+                {selectedTask.completed === null ||
+                selectedTask.completed === undefined
+                  ? "New"
+                  : selectedTask.completed === false
+                    ? "Pending"
+                    : "Completed"}
+              </div>
+              <button
+                className="mt-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-medium"
+                onClick={() => setShowDetail(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
-          <h4 className="font-bold mb-2">Edit Selected Tasks</h4>
-          <textarea
-            className="border rounded px-2 py-1 w-full min-h-[60px] dark:bg-gray-900 dark:text-white"
-            value={batchEditValue}
-            onChange={(e) => setBatchEditValue(e.target.value)}
-            placeholder="Enter new task content"
-          />
-          <div className="mt-4 flex gap-2">
-            <button
-              className="bg-blue-600 text-white px-4 py-2 rounded"
-              onClick={handleBulkEdit}
-            >
-              Save All
-            </button>
-            <button
-              className="bg-gray-500 text-white px-4 py-2 rounded"
-              // onClick={() => setShowBatchEdit(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div> */}
-
-      {/* {showBatchEdit && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
-            <h4 className="font-bold mb-2">Edit Selected Tasks</h4>
-            <textarea
-              className="border rounded px-2 py-1 w-full min-h-[60px] dark:bg-gray-900 dark:text-white"
-              value={batchEditValue}
-              onChange={(e) => setBatchEditValue(e.target.value)}
-              placeholder="Enter new task content"
-            />
-            <div className="mt-4 flex gap-2">
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-                onClick={handleBulkEdit}
-              >
-                Save All
-              </button>
-              <button
-                className="bg-gray-500 text-white px-4 py-2 rounded"
-                onClick={() => setShowBatchEdit(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
-
-      {showDetail && selectedTask && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg min-w-[320px] max-w-[90vw]">
-            <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
-              Task Detail
-            </h3>
-            <div className="mb-2 text-gray-900 dark:text-gray-100">
-              <b>User:</b>{" "}
-              {users.find((u) => String(u.id) === String(selectedTask.userId))
-                ?.username || selectedTask.userId}
-            </div>
-            <div className="mb-2 text-gray-900 dark:text-gray-100">
-              <b>Task:</b> {selectedTask.todo}
-            </div>
-            <div className="mb-4 text-gray-900 dark:text-gray-100">
-              <b>Status:</b>{" "}
-              {selectedTask.completed === null ||
-              selectedTask.completed === undefined
-                ? "New"
-                : selectedTask.completed === false
-                  ? "Pending"
-                  : "Completed"}
-            </div>
-            <button
-              className="mt-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-medium"
-              onClick={() => setShowDetail(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

@@ -28,7 +28,9 @@ const Login = () => {
       return;
     }
     localStorage.setItem("token", user.id);
+
     localStorage.setItem("user", JSON.stringify(user));
+
     toast.success("Login Successful!");
     navigate("/");
   };
