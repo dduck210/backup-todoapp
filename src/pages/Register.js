@@ -2,6 +2,7 @@ import { useState } from "react";
 import getUserByUsername, { createUser } from "../api/users";
 // import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -15,7 +16,7 @@ const Register = () => {
     setError("");
     if (!username || !password || !confirmPassword) {
       setError("Please enter complete information");
-      // toast.error("Registration failed!");
+      toast.error("Registration failed!");
       return;
     }
     if (password !== confirmPassword) {
@@ -26,14 +27,14 @@ const Register = () => {
       const existedUser = await getUserByUsername(username);
       if (existedUser) {
         setError("Username already exists");
-        // toast.warning("Username already exists");
+        toast.warning("Username already exists");
         return;
       }
       const user = await createUser({ username, password });
       localStorage.setItem("token", user.id);
       localStorage.setItem("username", user.username);
       localStorage.setItem("user", JSON.stringify(user));
-      // toast.success("Registration Successful!");
+      toast.success("Registration Successful!");
       setTimeout(() => {
         navigate("/");
       }, 500);
