@@ -60,7 +60,9 @@ const Home = () => {
       );
       setLoading(false);
     } catch (error) {
-      setNotification("Unable to load data, please try again!");
+      setNotification(
+        "데이터를 불러올 수 없습니다. 나중에 다시 시도해 주세요!"
+      );
       setLoading(false);
     }
   }, [isAdmin, userId]);
@@ -103,22 +105,22 @@ const Home = () => {
         priority: false,
       });
       setTodos((prev) => [res.data, ...prev]);
-      toast.success("Added task successfully!");
+      toast.success("작업이 성공적으로 추가되었습니다!");
     } catch {
-      setNotification("Error adding task!");
+      setNotification("작업 추가 중 오류가 발생했습니다!");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure want to delete this task?")) return;
+    if (!window.confirm("이 작업을 정말 삭제하시겠습니까?")) return;
     try {
       await axios.delete(`${API_URL}/${id}`);
       await fetchData();
-      toast.success("Task deleted!");
+      toast.success("작업이 삭제되었습니다!");
     } catch (err) {
-      toast.error("Cannot delete task!");
+      toast.error("작업을 삭제할 수 없습니다!");
     }
   };
 
@@ -129,9 +131,9 @@ const Home = () => {
       const found = todos.find((todo) => todo.id === id);
       await axios.put(`${API_URL}/${id}`, { ...found, completed });
       await fetchData();
-      toast.success("Status updated!");
+      toast.success("상태가 업데이트되었습니다!");
     } catch {
-      setNotification("Update status failed!");
+      setNotification("상태 업데이트에 실패했습니다!");
     } finally {
       setChangingStatusId(null);
     }
@@ -140,17 +142,17 @@ const Home = () => {
   const handleEdit = async (id, text) => {
     const found = todos.find((todo) => todo.id === id);
     if (!text || text === "") {
-      toast.error("Please enter task!");
+      toast.error("작업 내용을 입력하세요!");
       return false;
     }
     try {
       const updated = { ...found, todo: text };
       await axios.put(`${API_URL}/${id}`, updated);
       await fetchData();
-      toast.success("Fixed task!");
+      toast.success("작업이 수정되었습니다!");
       return true;
     } catch {
-      toast.error("Error when editing task!");
+      toast.error("작업 수정 중 오류가 발생했습니다!");
       return false;
     }
   };
@@ -162,8 +164,7 @@ const Home = () => {
   };
 
   const handleBulkDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete the selected task?"))
-      return;
+    if (!window.confirm("선택한 작업을 삭제하시겠습니까?")) return;
     try {
       await Promise.all(
         selectedIds.map((id) => {
@@ -175,9 +176,9 @@ const Home = () => {
       );
       setSelectedIds([]);
       await fetchData();
-      toast.success("Deleted selected tasks!");
+      toast.success("선택한 작업들이 삭제되었습니다!");
     } catch (err) {
-      toast.error("Bulk delete failed!");
+      toast.error("일괄 삭제에 실패했습니다!");
     }
   };
 
@@ -195,9 +196,9 @@ const Home = () => {
         })
       );
       await fetchData();
-      toast.success("Updated status for selected tasks!");
+      toast.success("선택한 작업들의 상태가 업데이트되었습니다!");
     } catch (err) {
-      toast.error("Bulk status update failed!");
+      toast.error("일괄 상태 변경에 실패했습니다!");
     }
   };
 
@@ -209,16 +210,19 @@ const Home = () => {
       });
       await fetchData();
       toast.success(
-        !todo.priority ? "Marked as Priority!" : "Unmarked as Priority!"
+        !todo.priority
+          ? "우선순위로 지정되었습니다!"
+          : "우선순위가 해제되었습니다!"
       );
     } catch (err) {
-      toast.error("Failed to update priority!");
+      toast.error("우선순위 업데이트에 실패했습니다!");
     }
   };
 
   const filteredTodos = todos.filter((todo) => {
     const matchUser =
       !isAdmin || !searchUserId || String(todo.userId) === String(searchUserId);
+
     const matchFilter =
       (filter === "completed" && todo.completed === true) ||
       (filter === "uncompleted" && todo.completed === false) ||
@@ -252,7 +256,7 @@ const Home = () => {
 
   const exportToCSV = () => {
     if (!filteredTodos.length) {
-      toast.warn("Không có task nào để export!");
+      toast.warn("내보낼 작업이 없습니다!");
       return;
     }
     const fields = ["id", "todo", "username", "completed", "priority"];
@@ -269,11 +273,11 @@ const Home = () => {
           `"${todo.todo.replaceAll('"', '""')}"`,
           userObj.username || "",
           todo.completed === true
-            ? "Completed"
+            ? "완료됨"
             : todo.completed === false
-              ? "Uncompleted"
-              : "New",
-          todo.priority ? "Priority" : "",
+              ? "미완료"
+              : "새로운",
+          todo.priority ? "우선순위" : "",
         ]
           .map((field) => JSON.stringify(field, replacer))
           .join(",");
@@ -304,7 +308,7 @@ const Home = () => {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center bg-white">
         <span className="text-blue-600 font-semibold text-lg mb-4">
-          Loading...
+          로딩 중...
         </span>
         <CircularProgress />
       </div>
@@ -357,7 +361,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("all")}
             >
-              All
+              전체
             </button>
             <button
               className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
@@ -367,7 +371,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("completed")}
             >
-              Completed
+              완료됨
             </button>
             <button
               className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
@@ -377,7 +381,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("uncompleted")}
             >
-              Uncompleted
+              미완료
             </button>
             <button
               className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
@@ -387,7 +391,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("new")}
             >
-              New
+              새로운
             </button>
             <button
               className={`px-5 py-2 rounded transition font-medium h-12 ${
@@ -397,7 +401,7 @@ const Home = () => {
               }`}
               onClick={() => setPriorityFilter("all")}
             >
-              Tất cả
+              전체
             </button>
             <button
               className={`px-5 py-2 rounded transition font-medium h-12 ${
@@ -407,7 +411,7 @@ const Home = () => {
               }`}
               onClick={() => setPriorityFilter("priority")}
             >
-              Priority ⭐
+              우선순위 ⭐
             </button>
             <button
               className={`px-5 py-2 rounded transition font-medium h-12 ${
@@ -417,7 +421,7 @@ const Home = () => {
               }`}
               onClick={() => setPriorityFilter("normal")}
             >
-              Normal
+              일반
             </button>
           </div>
           <div className="max-w-md mx-auto md:max-w-full md:mx-0 flex flex-wrap gap-2 mb-2 justify-center md:justify-start">
@@ -426,34 +430,34 @@ const Home = () => {
               onClick={() => handleBulkStatus(true)}
               disabled={selectedIds.length === 0}
             >
-              Mark Completed
+              완료로 표시
             </button>
             <button
               className="flex-1 px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
               onClick={() => handleBulkStatus(false)}
               disabled={selectedIds.length === 0}
             >
-              Mark Uncompleted
+              미완료로 표시
             </button>
             <button
               className="flex-1 px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
               onClick={() => handleBulkStatus(null)}
               disabled={selectedIds.length === 0}
             >
-              Mark New
+              새로운로 표시
             </button>
             <button
               className="flex-1 px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
               onClick={handleBulkDelete}
               disabled={selectedIds.length === 0}
             >
-              Delete Selected
+              선택 삭제
             </button>
             <button
               className="flex-1 px-3 py-2 bg-blue-800 text-white rounded h-12 whitespace-nowrap"
               onClick={exportToCSV}
             >
-              Export CSV 🡇
+              CSV 내보내기 🡇
             </button>
           </div>
         </div>
@@ -472,30 +476,30 @@ const Home = () => {
         <div className="rounded-lg shadow mt-0">
           <div className="flex items-center justify-between px-4 py-2 bg-blue-100 dark:bg-gray-800 border border-b-0 border-blue-200 dark:border-gray-700">
             <h2 className="text-xl font-bold text-blue-700 dark:text-gray-100 tracking-wide">
-              To-do List App
+              투두 리스트 앱
             </h2>
             <div className="flex flex-col md:flex-row gap-2 text-sm text-blue-800 dark:text-white font-semibold">
               <span>
-                Total: <b>{filteredTodos.length}</b>
+                전체: <b>{filteredTodos.length}</b>
               </span>
               <span>
-                Priority: <b>{totalPriority}</b>
+                우선순위: <b>{totalPriority}</b>
               </span>
               <span>
-                Completed:{" "}
+                완료됨:{" "}
                 <b>
                   {filteredTodos.filter((t) => t.completed === true).length} (
                   {percentCompleted}%)
                 </b>
               </span>
               <span>
-                Uncompleted:{" "}
+                미완료:{" "}
                 <b>
                   {filteredTodos.filter((t) => t.completed === false).length}
                 </b>
               </span>
               <span>
-                New:{" "}
+                새로운:{" "}
                 <b>
                   {
                     filteredTodos.filter(
@@ -529,22 +533,22 @@ const Home = () => {
                     />
                   </th>
                   <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    No
+                    번호
                   </th>
                   <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    User
+                    사용자
                   </th>
                   <th className="px-4 py-3 border-b text-left text-gray-900 dark:text-gray-100 font-bold">
-                    Task
+                    작업
                   </th>
                   <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    Priority
+                    우선순위
                   </th>
                   <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    Status
+                    상태
                   </th>
                   <th className="px-2 pr-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold w-1 whitespace-nowrap">
-                    Actions
+                    동작
                   </th>
                 </tr>
               </thead>
@@ -555,7 +559,7 @@ const Home = () => {
                       colSpan={7}
                       className="text-center py-6 text-gray-400 dark:text-gray-500"
                     >
-                      No tasks found.
+                      작업이 없습니다.
                     </td>
                   </tr>
                 )}
@@ -604,7 +608,7 @@ const Home = () => {
                             : "text-gray-400 dark:text-gray-600"
                         }`}
                         title={`${
-                          todo.priority ? "uncheck priority" : "mark priority"
+                          todo.priority ? "우선순위 해제" : "우선순위로 지정"
                         }`}
                         onClick={() => handleTogglePriority(todo)}
                         disabled={changingStatusId === todo.id}
@@ -625,7 +629,7 @@ const Home = () => {
                               : "bg-yellow-50 text-yellow-600 border-yellow-500")
                         }
                         style={{ margin: "0 auto" }}
-                        title="Click to change status"
+                        title="상태 변경"
                         onClick={() => {
                           if (changingStatusId === todo.id) return;
                           let nextStatus;
@@ -647,10 +651,10 @@ const Home = () => {
                           ? "..."
                           : todo.completed === null ||
                               todo.completed === undefined
-                            ? "New"
+                            ? "새로운"
                             : todo.completed === false
-                              ? "Uncompleted"
-                              : "Completed"}
+                              ? "미완료"
+                              : "완료됨"}
                       </button>
                     </td>
                     <td className="px-2 pr-4 py-3 border-b text-center align-middle w-1 whitespace-nowrap">
@@ -670,7 +674,7 @@ const Home = () => {
                                 if (success) setEditingId(null);
                               }}
                             >
-                              Save
+                              저장
                             </button>
                             <button
                               className={
@@ -679,7 +683,7 @@ const Home = () => {
                               }
                               onClick={() => setEditingId(null)}
                             >
-                              Cancel
+                              취소
                             </button>
                           </>
                         ) : (
@@ -689,13 +693,13 @@ const Home = () => {
                                 STATUS_BUTTON_STYLE +
                                 " bg-white border border-blue-400 hover:bg-blue-100 dark:bg-gray-800 dark:border-blue-300 dark:hover:bg-gray-700 text-blue-600 dark:text-blue-300"
                               }
-                              title="View detail"
+                              title="상세 보기"
                               onClick={() => {
                                 setSelectedTask(todo);
                                 setShowDetail(true);
                               }}
                             >
-                              View Detail
+                              상세 보기
                             </button>
                             <button
                               className={
@@ -707,7 +711,7 @@ const Home = () => {
                                 setEditText(todo.todo);
                               }}
                             >
-                              Edit
+                              수정
                             </button>
                             <button
                               className={
@@ -716,7 +720,7 @@ const Home = () => {
                               }
                               onClick={() => handleDelete(todo.id)}
                             >
-                              Delete
+                              삭제
                             </button>
                           </>
                         )}
@@ -734,7 +738,7 @@ const Home = () => {
                 disabled={page === 1}
                 className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white disabled:opacity-60"
               >
-                &lt; Prev
+                &lt; 이전
               </button>
               {Array.from({ length: totalPages }).map((_, idx) => (
                 <button
@@ -754,7 +758,7 @@ const Home = () => {
                 disabled={page === totalPages}
                 className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white disabled:opacity-60"
               >
-                Next &gt;
+                다음 &gt;
               </button>
             </div>
           )}
@@ -763,34 +767,34 @@ const Home = () => {
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg min-w-[320px] max-w-[90vw]">
               <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
-                Task Detail
+                작업 상세
               </h3>
               <div className="mb-2 text-gray-900 dark:text-gray-100">
-                <b>User:</b>{" "}
+                <b>사용자:</b>{" "}
                 {users.find((u) => String(u.id) === String(selectedTask.userId))
                   ?.username || selectedTask.userId}
               </div>
               <div className="mb-2 text-gray-900 dark:text-gray-100">
-                <b>Task:</b> {selectedTask.todo}
+                <b>작업:</b> {selectedTask.todo}
               </div>
               <div className="mb-2 text-gray-900 dark:text-gray-100">
-                <b>Priority:</b>{" "}
-                {selectedTask.priority ? "Priority ⭐" : "Normal"}
+                <b>우선순위:</b>{" "}
+                {selectedTask.priority ? "우선순위 ⭐" : "일반"}
               </div>
               <div className="mb-4 text-gray-900 dark:text-gray-100">
-                <b>Status:</b>{" "}
+                <b>상태:</b>{" "}
                 {selectedTask.completed === null ||
                 selectedTask.completed === undefined
-                  ? "New"
+                  ? "새로운"
                   : selectedTask.completed === false
-                    ? "Pending"
-                    : "Completed"}
+                    ? "대기중"
+                    : "완료됨"}
               </div>
               <button
                 className="mt-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-medium"
                 onClick={() => setShowDetail(false)}
               >
-                Close
+                닫기
               </button>
             </div>
           </div>
