@@ -295,14 +295,27 @@ const Home = () => {
     window.URL.revokeObjectURL(url);
   };
 
+  // Các biến thống kê dùng cho header, tránh lặp lại filter trong JSX!
+  const totalTasks = filteredTodos.length;
+  const completedTasks = filteredTodos.filter(
+    (t) => t.completed === true
+  ).length;
+  const uncompletedTasks = filteredTodos.filter(
+    (t) => t.completed === false
+  ).length;
+  const newTasks = filteredTodos.filter(
+    (t) => t.completed === null || t.completed === undefined
+  ).length;
   const totalPriority = filteredTodos.filter((t) => t.priority).length;
-  const percentCompleted = filteredTodos.length
-    ? Math.round(
-        (filteredTodos.filter((t) => t.completed === true).length /
-          filteredTodos.length) *
-          100
-      )
-    : 0;
+
+  const percentCompleted =
+    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const percentUncompleted =
+    totalTasks > 0 ? Math.round((uncompletedTasks / totalTasks) * 100) : 0;
+  const percentNew =
+    totalTasks > 0 ? Math.round((newTasks / totalTasks) * 100) : 0;
+  const percentPriority =
+    totalTasks > 0 ? Math.round((totalPriority / totalTasks) * 100) : 0;
 
   if (loading) {
     return (
@@ -478,34 +491,32 @@ const Home = () => {
             <h2 className="text-xl font-bold text-blue-700 dark:text-gray-100 tracking-wide">
               투두 리스트 앱
             </h2>
-            <div className="flex flex-col md:flex-row gap-2 text-sm text-blue-800 dark:text-white font-semibold">
+            <div className="flex flex-wrap gap-3 md:gap-5 text-sm text-blue-800 dark:text-white font-semibold items-center">
               <span>
-                전체: <b>{filteredTodos.length}</b>
+                전체 <b>{totalTasks}</b>
               </span>
               <span>
-                우선순위: <b>{totalPriority}</b>
-              </span>
-              <span>
-                완료됨:{" "}
+                완료됨{" "}
                 <b>
-                  {filteredTodos.filter((t) => t.completed === true).length} (
-                  {percentCompleted}%)
+                  {completedTasks} ({percentCompleted}%)
                 </b>
               </span>
               <span>
-                미완료:{" "}
+                미완료{" "}
                 <b>
-                  {filteredTodos.filter((t) => t.completed === false).length}
+                  {uncompletedTasks} ({percentUncompleted}%)
                 </b>
               </span>
               <span>
-                새로운:{" "}
+                새로운{" "}
                 <b>
-                  {
-                    filteredTodos.filter(
-                      (t) => t.completed === null || t.completed === undefined
-                    ).length
-                  }
+                  {newTasks} ({percentNew}%)
+                </b>
+              </span>
+              <span>
+                우선순위{" "}
+                <b>
+                  {totalPriority} ({percentPriority}%)
                 </b>
               </span>
             </div>
