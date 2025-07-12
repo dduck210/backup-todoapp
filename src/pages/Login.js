@@ -15,24 +15,24 @@ const Login = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     if (!username || !password) {
-      setError("Please enter complete information");
+      setError("모든 정보를 입력하세요");
       setIsSubmitting(false);
       return;
     }
     const user = await getUserByUsername(username);
     if (!user) {
-      setError("Username does not exist");
+      setError("존재하지 않는 아이디입니다");
       setIsSubmitting(false);
       return;
     }
     if (user.password !== password) {
-      setError("Wrong account or password");
+      setError("아이디 또는 비밀번호가 잘못되었습니다");
       setIsSubmitting(false);
       return;
     }
     localStorage.setItem("token", user.id);
     localStorage.setItem("user", JSON.stringify(user));
-    toast.success("Login Successful!");
+    toast.success("로그인 성공!");
     setIsSubmitting(false);
     navigate("/");
   };
@@ -54,7 +54,7 @@ const Login = () => {
         onSubmit={handleLogin}
       >
         <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 dark:text-gray-100 tracking-tight">
-          Login
+          로그인
         </h2>
         {error && (
           <div className="mb-4 text-center text-red-500 font-medium">
@@ -63,7 +63,7 @@ const Login = () => {
         )}
         <input
           className="w-full mb-4 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-          placeholder="Username"
+          placeholder="아이디"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
           autoComplete="username"
@@ -71,7 +71,7 @@ const Login = () => {
         <input
           className="w-full mb-6 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           type="password"
-          placeholder="Password"
+          placeholder="비밀번호"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           autoComplete="current-password"
@@ -81,15 +81,15 @@ const Login = () => {
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Logging in..." : "Login"}
+          {isSubmitting ? "로그인 중..." : "로그인"}
         </button>
         <div className="mt-6 text-center text-sm text-gray-700 dark:text-gray-100 font-semibold">
-          Don't have an account?{" "}
+          계정이 없으신가요?{" "}
           <Link
             to="/register"
             className="text-blue-600 dark:text-blue-300 underline hover:text-blue-800 dark:hover:text-blue-400 transition font-semibold"
           >
-            Register
+            회원가입
           </Link>
         </div>
       </form>
