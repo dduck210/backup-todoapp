@@ -14,7 +14,7 @@ const SearchUsername = ({ value, onChange }) => {
     bg-white dark:bg-gray-800
     text-gray-900 dark:text-gray-100
   "
-      placeholder="Search username..."
+      placeholder="사용자 이름 검색..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />

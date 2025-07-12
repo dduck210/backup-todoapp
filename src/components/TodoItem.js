@@ -54,7 +54,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
       <div
         className={`flex-1 cursor-pointer break-words truncate max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl ${todo.completed === true ? "line-through text-gray-400" : ""}`}
         onClick={isEditing ? undefined : () => onDetail(todo)}
-        title="Click to see details"
+        title="상세보기"
       >
         {isEditing ? (
           <form
@@ -80,14 +80,14 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
                 type="submit"
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow transition-all duration-150"
               >
-                Save
+                저장
               </button>
               <button
                 type="button"
                 className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs font-semibold transition-all duration-150"
                 onClick={() => setIsEditing(false)}
               >
-                Cancel
+                취소
               </button>
             </div>
           </form>
@@ -106,7 +106,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
                   : "bg-yellow-100 border-yellow-500"
             }
           `}
-          title="Toggle status"
+          title="상태 변경"
           onClick={handleToggleStatus}
         >
           {statusIcon}
@@ -115,13 +115,13 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
           className="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded text-xs text-white"
           onClick={handleEdit}
         >
-          Edit
+          수정
         </button>
         <button
           className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-xs text-white"
           onClick={() => onDelete(todo.id)}
         >
-          Delete
+          삭제
         </button>
         <button
           className="bg-blue-400 hover:bg-blue-500 px-3 py-1 rounded text-xs text-white"
@@ -129,7 +129,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
           disabled={isEditing}
           style={isEditing ? { pointerEvents: "none", opacity: 0.5 } : {}}
         >
-          Detail
+          상세보기
         </button>
       </div>
     </div>

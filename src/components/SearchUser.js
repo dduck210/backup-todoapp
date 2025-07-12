@@ -5,7 +5,7 @@ const SearchUser = ({ users, value, onChange }) => {
         className="font-semibold text-base text-gray-800 dark:text-gray-100 whitespace-nowrap"
         htmlFor="user-select"
       >
-        Filter by user:
+        사용자로 필터링:
       </label>
       <div className="relative w-full">
         <select
@@ -25,7 +25,7 @@ const SearchUser = ({ users, value, onChange }) => {
           value={value}
           onChange={(e) => onChange(e.target.value)}
         >
-          <option value="">All users</option>
+          <option value="">전체 사용자</option>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.username}

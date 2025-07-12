@@ -34,7 +34,7 @@ const Header = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("user");
     setIsLoggedIn(false);
-    toast.success("Logged out successfully!");
+    toast.success("성공적으로 로그아웃되었습니다!");
     navigate("/login");
   };
 
@@ -47,13 +47,13 @@ const Header = () => {
             className="hover:text-blue-200 dark:hover:text-gray-300 transition"
             onClick={() => setMenuOpen(false)}
           >
-            Todo App
+            투두 앱
           </Link>
         </h1>
         <button
           className="sm:hidden flex items-center ml-auto"
           onClick={() => setMenuOpen((open) => !open)}
-          aria-label="Open Menu"
+          aria-label="메뉴 열기"
         >
           <span className="block w-7 h-1 bg-white rounded my-[3px]"></span>
           <span className="block w-7 h-1 bg-white rounded my-[3px]"></span>
@@ -74,9 +74,9 @@ const Header = () => {
               setDarkMode((v) => !v);
               setMenuOpen(false);
             }}
-            title="Toggle dark mode"
+            title="다크 모드 전환"
           >
-            {darkMode ? "Dark" : "Light"}
+            {darkMode ? "다크" : "라이트"}
           </button>
           {isLoggedIn && (
             <Link
@@ -84,7 +84,7 @@ const Header = () => {
               className="hover:underline block px-4 py-2 sm:p-0"
               onClick={() => setMenuOpen(false)}
             >
-              Home
+              홈
             </Link>
           )}
           {!isLoggedIn && (
@@ -94,21 +94,21 @@ const Header = () => {
                 className="hover:underline block px-4 py-2 sm:p-0"
                 onClick={() => setMenuOpen(false)}
               >
-                Login
+                로그인
               </Link>
               <Link
                 to="/register"
                 className="hover:underline block px-4 py-2 sm:p-0"
                 onClick={() => setMenuOpen(false)}
               >
-                Register
+                회원가입
               </Link>
             </>
           )}
           {isLoggedIn && (
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto items-center">
               <span className="font-semibold text-white block px-4 py-2 sm:p-0 text-left sm:text-center">
-                Hello, {username}!
+                안녕하세요, {username}님!
               </span>
               <button
                 className="px-3 py-1 bg-gray-50 text-blue-700 rounded hover:bg-blue-200 transition w-full sm:w-auto"
@@ -117,7 +117,7 @@ const Header = () => {
                   setMenuOpen(false);
                 }}
               >
-                Logout
+                로그아웃
               </button>
             </div>
           )}

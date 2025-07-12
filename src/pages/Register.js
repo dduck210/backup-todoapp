@@ -14,31 +14,31 @@ const Register = () => {
     event.preventDefault();
     setError("");
     if (!username || !password || !confirmPassword) {
-      setError("Please enter complete information");
-      toast.error("Registration failed!");
+      setError("모든 정보를 입력하세요");
+      toast.error("회원가입에 실패했습니다!");
       return;
     }
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("비밀번호가 일치하지 않습니다");
       return;
     }
     try {
       const existedUser = await getUserByUsername(username);
       if (existedUser) {
-        setError("Username already exists");
-        toast.warning("Username already exists");
+        setError("이미 존재하는 아이디입니다");
+        toast.warning("이미 존재하는 아이디입니다");
         return;
       }
       const user = await createUser({ username, password });
       localStorage.setItem("token", user.id);
       localStorage.setItem("username", user.username);
       localStorage.setItem("user", JSON.stringify(user));
-      toast.success("Registration Successful!");
+      toast.success("회원가입 성공!");
       setTimeout(() => {
         navigate("/");
       }, 500);
     } catch (error) {
-      setError("Registration failed!");
+      setError("회원가입에 실패했습니다!");
     }
   };
 
@@ -64,7 +64,7 @@ const Register = () => {
         onSubmit={handleRegister}
       >
         <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 dark:text-gray-100 tracking-tight">
-          Register
+          회원가입
         </h2>
         {error && (
           <div className="text-center mb-4 text-red-500 font-medium">
@@ -73,7 +73,7 @@ const Register = () => {
         )}
         <input
           className="w-full mb-4 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-          placeholder="Username"
+          placeholder="아이디"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
           autoComplete="username"
@@ -81,7 +81,7 @@ const Register = () => {
         <input
           className="w-full mb-4 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           type="password"
-          placeholder="Password"
+          placeholder="비밀번호"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           autoComplete="new-password"
@@ -89,7 +89,7 @@ const Register = () => {
         <input
           className="w-full mb-6 px-4 py-3 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           type="password"
-          placeholder="Re-enter password"
+          placeholder="비밀번호 재입력"
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
           autoComplete="new-password"
@@ -98,16 +98,16 @@ const Register = () => {
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow transition-all text-lg"
           type="submit"
         >
-          Register
+          회원가입
         </button>
         <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-100">
-          Already have an account?{" "}
+          이미 계정이 있으신가요?{" "}
           <button
             type="button"
             className="text-blue-600 dark:text-blue-300 hover:underline font-semibold"
             onClick={() => navigate("/login")}
           >
-            Login
+            로그인
           </button>
         </div>
       </form>

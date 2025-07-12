@@ -13,35 +13,37 @@ const Footer = () => {
               to="/"
               className="hover:text-blue-200 dark:hover:text-gray-300 transition"
             >
-              Todo App
+              투두 앱
             </Link>
           </span>
           <span className="hidden sm:inline-block text-xs bg-white/30 dark:bg-gray-700/50 rounded px-2 py-1 ml-2 transition">
-            © 2025 To Do App™. All Rights Reserved.
+            © 2025 투두 앱™. 모든 권리 보유.
           </span>
         </div>
         <nav className="flex flex-wrap gap-2 sm:gap-3 items-center justify-center w-full sm:w-auto text-sm">
-          {/* <Link
+          {/* 홈 메뉴 필요시 추가
+          <Link
             to="/"
             className="hover:underline hover:text-blue-200 dark:hover:text-gray-300 transition"
           >
-            Home
-          </Link> */}
+            홈
+          </Link> 
+          */}
           <a
-            href="https://facebook.com/dduck.210"
+            href="https://www.facebook.com/OmiGroup.vn"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline hover:text-blue-200 dark:hover:text-gray-300 transition"
           >
-            Facebook
+            페이스북
           </a>
           <a
-            href="https://github.com/dduck210/duc-todolist"
+            href="https://github.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline hover:text-blue-200 dark:hover:text-gray-300 transition"
           >
-            Github
+            깃허브
           </a>
           <a
             href="https://tailwindcss.com/"
@@ -49,7 +51,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="hover:underline hover:text-blue-200 dark:hover:text-gray-300 transition"
           >
-            Tailwind CSS
+            테일윈드 CSS
           </a>
           <a
             href="https://react.dev/"
@@ -57,11 +59,11 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="hover:underline hover:text-blue-200 dark:hover:text-gray-300 transition"
           >
-            React
+            리액트
           </a>
         </nav>
         <span className="block sm:hidden mt-1 text-xs bg-white/30 dark:bg-gray-700/50 rounded px-2 py-1 text-center transition w-full">
-          © 2025 To Do App™. All Rights Reserved.
+          © 2025 투두 앱™. 모든 권리 보유.
         </span>
       </div>
     </footer>
