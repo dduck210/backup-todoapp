@@ -110,75 +110,118 @@ const Register = () => {
     >
       <div className="absolute inset-0 z-0 bg-black/40" aria-hidden />
       <form
-        className="relative z-10 bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md sm:max-w-lg md:max-w-xl transition-all"
         onSubmit={handleRegister}
         autoComplete="on"
+        className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl 
+             p-10 rounded-3xl shadow-2xl w-full max-w-md 
+             border border-gray-200 dark:border-gray-700 
+             transition-all hover:scale-[1.01]"
       >
-        <h2 className="text-3xl text-center font-extrabold mb-8 text-blue-700 dark:text-gray-100 tracking-tight">
+        {/* Title */}
+        <h2
+          className="text-4xl text-center font-extrabold mb-8 
+                 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+        >
           회원가입
         </h2>
+
+        {/* Error */}
         {(errors.username ||
           errors.password ||
           errors.confirm ||
           errors.other) && (
-          <div className="text-center mb-4 text-red-500 font-medium">
+          <div className="mb-4 text-center text-red-500 font-medium">
             {errors.username ||
               errors.password ||
               errors.confirm ||
               errors.other}
           </div>
         )}
-        <input
-          className={`w-full mb-4 px-4 py-3 border ${
-            errors.username
-              ? "border-red-500"
-              : "border-blue-300 dark:border-gray-600"
-          } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
-          placeholder="아이디"
-          value={username}
-          onChange={(event) => handleInput("username", event.target.value)}
-          autoComplete="username"
-          ref={usernameRef}
-        />
-        <input
-          className={`w-full mb-4 px-4 py-3 border ${
-            errors.password
-              ? "border-red-500"
-              : "border-blue-300 dark:border-gray-600"
-          } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(event) => handleInput("password", event.target.value)}
-          autoComplete="new-password"
-          ref={passwordRef}
-        />
-        <input
-          className={`w-full mb-6 px-4 py-3 border ${
-            errors.confirm
-              ? "border-red-500"
-              : "border-blue-300 dark:border-gray-600"
-          } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
-          type="password"
-          placeholder="비밀번호 재입력"
-          value={confirmPassword}
-          onChange={(event) => handleInput("confirm", event.target.value)}
-          autoComplete="new-password"
-          ref={confirmRef}
-        />
+
+        {/* Username */}
+        <div className="relative mb-5">
+          <span className="absolute left-3 top-3 text-gray-400">
+            <i className="fas fa-user" />
+          </span>
+          <input
+            className={`w-full pl-10 pr-4 py-3 border ${
+              errors.username
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
+            } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 
+         bg-white/70 dark:bg-gray-800/70 text-gray-900 dark:text-gray-100`}
+            placeholder="아이디"
+            value={username}
+            onChange={(e) => handleInput("username", e.target.value)}
+            autoComplete="username"
+            ref={usernameRef}
+          />
+        </div>
+
+        {/* Password */}
+        <div className="relative mb-5">
+          <span className="absolute left-3 top-3 text-gray-400">
+            <i className="fas fa-lock" />
+          </span>
+          <input
+            type="password"
+            className={`w-full pl-10 pr-4 py-3 border ${
+              errors.password
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
+            } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 
+         bg-white/70 dark:bg-gray-800/70 text-gray-900 dark:text-gray-100`}
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => handleInput("password", e.target.value)}
+            autoComplete="new-password"
+            ref={passwordRef}
+          />
+        </div>
+
+        {/* Confirm Password */}
+        <div className="relative mb-8">
+          <span className="absolute left-3 top-3 text-gray-400">
+            <i className="fas fa-check" />
+          </span>
+          <input
+            type="password"
+            className={`w-full pl-10 pr-4 py-3 border ${
+              errors.confirm
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
+            } rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 
+         bg-white/70 dark:bg-gray-800/70 text-gray-900 dark:text-gray-100`}
+            placeholder="비밀번호 재입력"
+            value={confirmPassword}
+            onChange={(e) => handleInput("confirm", e.target.value)}
+            autoComplete="new-password"
+            ref={confirmRef}
+          />
+        </div>
+
+        {/* Button */}
         <button
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow transition-all text-lg"
           type="submit"
           disabled={isSubmitting}
+          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 
+               hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 
+               rounded-xl shadow-lg transition-all text-lg flex items-center justify-center"
         >
-          회원가입
+          {isSubmitting ? (
+            <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+          ) : (
+            "회원가입"
+          )}
         </button>
-        <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-100">
+
+        {/* Footer */}
+        <div className="mt-6 text-center text-sm text-gray-700 dark:text-gray-200">
           이미 계정이 있으신가요?{" "}
           <button
             type="button"
-            className="text-blue-600 dark:text-blue-300 hover:underline font-semibold"
             onClick={() => navigate("/login")}
+            className="text-blue-600 dark:text-blue-300 hover:text-indigo-600 font-semibold underline"
           >
             로그인
           </button>
