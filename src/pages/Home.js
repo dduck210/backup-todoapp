@@ -486,46 +486,37 @@ const Home = () => {
             {notification}
           </div>
         )}
-        <div className="rounded-lg shadow mt-0">
-          <div className="flex items-center justify-between px-4 py-2 bg-blue-100 dark:bg-gray-800 border border-b-0 border-blue-200 dark:border-gray-700">
-            <h2 className="text-xl font-bold text-blue-700 dark:text-gray-100 tracking-wide">
-              투두 리스트 앱
+        <div className="rounded-xl shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 py-3 bg-blue-50 dark:bg-gray-800 border-b border-blue-200 dark:border-gray-700">
+            <h2 className="text-lg md:text-xl font-bold text-blue-700 dark:text-gray-100 tracking-wide">
+              📋 투두 리스트 앱
             </h2>
-            <div className="flex flex-wrap gap-3 md:gap-5 text-sm text-blue-800 dark:text-white font-semibold items-center">
-              <span>
+            <div className="flex flex-wrap gap-2 md:gap-3">
+              <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-700 dark:text-blue-200 text-sm font-medium">
                 전체 <b>{totalTasks}</b>
               </span>
-              <span>
-                완료됨{" "}
-                <b>
-                  {completedTasks} ({percentCompleted}%)
-                </b>
+              <span className="px-3 py-1 rounded-full bg-green-100 dark:bg-gray-700 text-green-600 dark:text-green-300 text-sm font-medium">
+                완료됨 <b>{completedTasks}</b> ({percentCompleted}%)
               </span>
-              <span>
-                미완료{" "}
-                <b>
-                  {uncompletedTasks} ({percentUncompleted}%)
-                </b>
+              <span className="px-3 py-1 rounded-full bg-red-100 dark:bg-gray-700 text-red-600 dark:text-red-300 text-sm font-medium">
+                미완료 <b>{uncompletedTasks}</b> ({percentUncompleted}%)
               </span>
-              <span>
-                새로운{" "}
-                <b>
-                  {newTasks} ({percentNew}%)
-                </b>
+              <span className="px-3 py-1 rounded-full bg-yellow-100 dark:bg-gray-700 text-yellow-700 dark:text-yellow-300 text-sm font-medium">
+                새로운 <b>{newTasks}</b> ({percentNew}%)
               </span>
-              <span>
-                우선순위{" "}
-                <b>
-                  {totalPriority} ({percentPriority}%)
-                </b>
+              <span className="px-3 py-1 rounded-full bg-purple-100 dark:bg-gray-700 text-purple-700 dark:text-purple-300 text-sm font-medium">
+                우선순위 <b>{totalPriority}</b> ({percentPriority}%)
               </span>
             </div>
           </div>
-          <div className="overflow-x-auto shadow mt-0">
-            <table className="min-w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 overflow-hidden transition">
+
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white dark:bg-gray-900 text-sm">
               <thead>
-                <tr className="bg-blue-50 dark:bg-gray-800 transition">
-                  <th className="px-2 py-3 border-b text-center">
+                <tr className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-xs uppercase tracking-wide">
+                  <th className="px-2 py-3 text-center">
                     <input
                       type="checkbox"
                       checked={
@@ -543,27 +534,15 @@ const Home = () => {
                       }}
                     />
                   </th>
-                  <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    번호
-                  </th>
-                  <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    사용자
-                  </th>
-                  <th className="px-4 py-3 border-b text-left text-gray-900 dark:text-gray-100 font-bold">
-                    작업
-                  </th>
-                  <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    우선순위
-                  </th>
-                  <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                    상태
-                  </th>
-                  <th className="px-2 pr-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold w-1 whitespace-nowrap">
-                    동작
-                  </th>
+                  <th className="px-3 py-3 text-center">번호</th>
+                  <th className="px-3 py-3 text-center">사용자</th>
+                  <th className="px-3 py-3 text-left">작업</th>
+                  <th className="px-3 py-3 text-center">우선순위</th>
+                  <th className="px-3 py-3 text-center">상태</th>
+                  <th className="px-3 py-3 text-center">동작</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {paginatedTodos.length === 0 && (
                   <tr>
                     <td
@@ -574,52 +553,59 @@ const Home = () => {
                     </td>
                   </tr>
                 )}
+
                 {paginatedTodos.map((todo, idx) => (
                   <tr
                     key={todo.id}
-                    className="hover:bg-blue-50 dark:hover:bg-gray-700 transition"
+                    className="hover:bg-blue-50 dark:hover:bg-gray-800 transition"
                   >
-                    <td className="px-2 py-3 border-b text-center">
+                    {/* Checkbox */}
+                    <td className="px-2 py-3 text-center">
                       <input
                         type="checkbox"
                         checked={selectedIds.includes(todo.id)}
                         onChange={() => handleSelectTask(todo.id)}
                       />
                     </td>
-                    <td className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100">
+
+                    {/* 번호 */}
+                    <td className="px-3 py-3 text-center">
                       {(page - 1) * itemsPerPage + idx + 1}
                     </td>
-                    <td className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100">
+
+                    {/* 사용자 */}
+                    <td className="px-3 py-3 text-center">
                       {users.find((u) => String(u.id) === String(todo.userId))
                         ?.username || "N/A"}
                     </td>
+
+                    {/* 작업 */}
                     <td
-                      className={`px-4 py-3 border-b text-left break-words max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl ${
-                        todo.completed === true
+                      className={`px-3 py-3 text-left break-words max-w-xs sm:max-w-md ${
+                        todo.completed
                           ? "line-through text-gray-400 dark:text-gray-500"
                           : "text-gray-900 dark:text-gray-100"
                       }`}
                     >
                       {editingId === todo.id ? (
                         <input
-                          className="border rounded px-2 py-1 w-full text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800"
+                          className="border rounded px-2 py-1 w-full text-sm bg-white dark:bg-gray-800"
                           value={editText}
-                          onChange={(event) => setEditText(event.target.value)}
+                          onChange={(e) => setEditText(e.target.value)}
                           autoFocus
                         />
                       ) : (
                         todo.todo
                       )}
                     </td>
-                    <td className="px-4 py-3 border-b text-center align-middle">
+
+                    {/* 우선순위 */}
+                    <td className="px-3 py-3 text-center">
                       <button
-                        className={`text-xl select-none focus:outline-none ${
+                        className={`text-lg ${
                           todo.priority
                             ? "text-yellow-400"
-                            : "text-gray-400 dark:text-gray-600"
-                        }`}
-                        title={`${
-                          todo.priority ? "우선순위 해제" : "우선순위로 지정"
+                            : "text-gray-300 dark:text-gray-600"
                         }`}
                         onClick={() => handleTogglePriority(todo)}
                         disabled={changingStatusId === todo.id}
@@ -627,20 +613,17 @@ const Home = () => {
                         {todo.priority ? "★" : "☆"}
                       </button>
                     </td>
-                    <td className="px-4 py-3 border-b text-center align-middle">
+
+                    {/* 상태 */}
+                    <td className="px-3 py-3 text-center">
                       <button
-                        className={
-                          STATUS_BUTTON_STYLE +
-                          (changingStatusId === todo.id ? " opacity-50" : "") +
-                          " " +
-                          (todo.completed === true
-                            ? "bg-green-50 text-green-600 border-green-500"
+                        className={`px-3 py-1 rounded-full border text-xs font-medium transition ${
+                          todo.completed === true
+                            ? "bg-green-50 text-green-600 border-green-400"
                             : todo.completed === false
-                              ? "bg-orange-50 text-orange-600 border-orange-500"
-                              : "bg-yellow-50 text-yellow-600 border-yellow-500")
-                        }
-                        style={{ margin: "0 auto" }}
-                        title="상태 변경"
+                              ? "bg-red-50 text-red-600 border-red-400"
+                              : "bg-yellow-50 text-yellow-600 border-yellow-400"
+                        } ${changingStatusId === todo.id ? "opacity-50" : ""}`}
                         onClick={() => {
                           if (changingStatusId === todo.id) return;
                           let nextStatus;
@@ -668,15 +651,14 @@ const Home = () => {
                               : "완료됨"}
                       </button>
                     </td>
-                    <td className="px-2 pr-4 py-3 border-b text-center align-middle w-1 whitespace-nowrap">
-                      <div className="flex justify-center items-center gap-2">
+
+                    {/* 동작 */}
+                    <td className="px-3 py-3 text-center">
+                      <div className="flex justify-center gap-2">
                         {editingId === todo.id ? (
                           <>
                             <button
-                              className={
-                                STATUS_BUTTON_STYLE +
-                                " bg-blue-600 hover:bg-blue-700 text-white"
-                              }
+                              className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs"
                               onClick={async () => {
                                 const success = await handleEdit(
                                   todo.id,
@@ -688,10 +670,7 @@ const Home = () => {
                               저장
                             </button>
                             <button
-                              className={
-                                STATUS_BUTTON_STYLE +
-                                " bg-gray-300 hover:bg-gray-400 text-black dark:bg-gray-700 dark:text-gray-100"
-                              }
+                              className="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 text-xs"
                               onClick={() => setEditingId(null)}
                             >
                               취소
@@ -700,38 +679,31 @@ const Home = () => {
                         ) : (
                           <>
                             <button
-                              className={
-                                STATUS_BUTTON_STYLE +
-                                " bg-white border border-blue-400 hover:bg-blue-100 dark:bg-gray-800 dark:border-blue-300 dark:hover:bg-gray-700 text-blue-600 dark:text-blue-300"
-                              }
                               title="상세 보기"
+                              className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-gray-700"
                               onClick={() => {
                                 setSelectedTask(todo);
                                 setShowDetail(true);
                               }}
                             >
-                              상세 보기
+                              🔍
                             </button>
                             <button
-                              className={
-                                STATUS_BUTTON_STYLE +
-                                " bg-yellow-400 hover:bg-yellow-500 text-white"
-                              }
+                              title="수정"
+                              className="p-2 rounded-full hover:bg-yellow-100 dark:hover:bg-gray-700"
                               onClick={() => {
                                 setEditingId(todo.id);
                                 setEditText(todo.todo);
                               }}
                             >
-                              수정
+                              ✏️
                             </button>
                             <button
-                              className={
-                                STATUS_BUTTON_STYLE +
-                                " bg-red-500 hover:bg-red-600 text-white"
-                              }
+                              title="삭제"
+                              className="p-2 rounded-full hover:bg-red-100 dark:hover:bg-gray-700"
                               onClick={() => handleDelete(todo.id)}
                             >
-                              삭제
+                              🗑️
                             </button>
                           </>
                         )}
@@ -742,38 +714,49 @@ const Home = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
           {totalPages > 1 && (
             <div className="my-4 flex justify-center items-center gap-2">
+              {/* Prev */}
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white disabled:opacity-60"
+                className="h-9 w-9 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white disabled:opacity-40 transition"
               >
-                &lt; 이전
+                ←
               </button>
-              {Array.from({ length: totalPages }).map((_, idx) => (
-                <button
-                  key={idx + 1}
-                  onClick={() => setPage(idx + 1)}
-                  className={`px-3 py-2 rounded ${
-                    page === idx + 1
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 dark:bg-gray-700 text-blue-800 dark:text-white"
-                  }`}
-                >
-                  {idx + 1}
-                </button>
-              ))}
+
+              {/* Page numbers */}
+              {Array.from({ length: totalPages }).map((_, idx) => {
+                const active = page === idx + 1;
+                return (
+                  <button
+                    key={idx + 1}
+                    onClick={() => setPage(idx + 1)}
+                    className={`h-9 w-9 flex items-center justify-center rounded-full text-sm font-medium transition ${
+                      active
+                        ? "bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow"
+                        : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-gray-600"
+                    }`}
+                  >
+                    {idx + 1}
+                  </button>
+                );
+              })}
+
+              {/* Next */}
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white disabled:opacity-60"
+                className="h-9 w-9 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-blue-600 hover:text-white disabled:opacity-40 transition"
               >
-                다음 &gt;
+                →
               </button>
             </div>
           )}
         </div>
+
         {showDetail && selectedTask && (
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg min-w-[320px] max-w-[90vw]">
