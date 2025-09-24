@@ -1,4 +1,4 @@
-import TodoItem from "./TodoItem";
+// import TodoItem from "./TodoItem";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const TodoList = ({

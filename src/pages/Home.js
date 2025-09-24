@@ -7,6 +7,9 @@ import SearchUsername from "../components/SearchUsername";
 import { CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const API_URL = "https://todo-backend-6c6i.onrender.com/todos";
 const USERS_API = "https://todo-backend-6c6i.onrender.com/users";
@@ -14,10 +17,10 @@ const STATUS_BUTTON_STYLE =
   "min-w-[132px] h-12 px-4 text-base font-medium border rounded-md flex items-center justify-center transition";
 
 const Home = () => {
-  const rawUser = localStorage.getItem("user");
-  const user = rawUser ? JSON.parse(rawUser) : null;
-  const isAdmin = user?.role === "admin";
-  const userId = user?.id;
+  // Lấy user từ API dựa vào token
+  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const [todos, setTodos] = useState([]);
   const [users, setUsers] = useState([]);
@@ -36,9 +39,25 @@ const Home = () => {
   const [changingStatusId, setChangingStatusId] = useState(null);
   const [page, setPage] = useState(1);
   const itemsPerPage = 8;
-
-  // Drag state: when dragging we show the full filtered list (global reorder).
   const [dragActive, setDragActive] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get(`${USERS_API}/${token}`)
+        .then((res) => {
+          setUser(res.data);
+          setIsAdmin(res.data.role === "admin");
+          setUserId(res.data.id);
+        })
+        .catch(() => {
+          setUser(null);
+          setIsAdmin(false);
+          setUserId(null);
+        });
+    }
+  }, []);
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -53,7 +72,6 @@ const Home = () => {
     try {
       const res = await axios.get(API_URL);
       let todoData = res.data || [];
-      // If backend provides order field, sort by it. Otherwise fallback to createdAt/id.
       const sortFn = (a, b) => {
         if (a.order !== undefined || b.order !== undefined) {
           const ao = a.order ?? 0;
@@ -65,7 +83,7 @@ const Home = () => {
         if (db !== da) return db - da;
         return Number(b.id) - Number(a.id);
       };
-      if (!isAdmin) {
+      if (!isAdmin && userId) {
         todoData = todoData.filter(
           (todo) => String(todo.userId) === String(userId)
         );
@@ -86,8 +104,10 @@ const Home = () => {
   }, [fetchUsers]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (userId !== null) {
+      fetchData();
+    }
+  }, [fetchData, userId]);
 
   useEffect(() => {
     let timerId;
@@ -121,7 +141,6 @@ const Home = () => {
         userId: isAdmin ? assignedUserId : userId,
         priority: false,
       });
-      // place new item at top with order 0, then shift others locally
       setTodos((prev) => [
         res.data,
         ...prev.map((t, i) => ({ ...t, order: t.order ?? i + 1 })),
@@ -352,47 +371,32 @@ const Home = () => {
     const srcIndex = result.source.index;
     const destIndex = result.destination.index;
 
-    // Operate on the filtered list (global within current filters).
     const currentList = Array.from(filteredTodos);
-    // Safety: if indices out of bounds, abort
     if (srcIndex < 0 || srcIndex >= currentList.length) return;
     if (destIndex < 0 || destIndex > currentList.length) return;
 
     const [moved] = currentList.splice(srcIndex, 1);
     currentList.splice(destIndex, 0, moved);
 
-    // Now we must map this reordering back to the full todos array.
-    // Approach: assign new 'order' values based on the index within currentList.
-    // We'll set order only for items present in filteredTodos and keep others' order unchanged.
     const updatedTodos = [...todos];
-
-    // Build a map from id to new order
     const orderMap = {};
     currentList.forEach((item, idx) => {
-      orderMap[item.id] = idx; // smaller index = earlier
+      orderMap[item.id] = idx;
     });
 
-    // Apply orders to updatedTodos for matching ids; for items not in filtered list,
-    // offset their order to be after the reordered ones if they previously had no order.
-    // Simpler: keep their existing order if present, otherwise set to big index.
     updatedTodos.forEach((t) => {
       if (orderMap.hasOwnProperty(t.id)) {
         t.order = orderMap[t.id];
       } else {
-        // ensure non-filtered items don't collide: if they lack order set a large offset
         if (t.order === undefined || t.order === null) {
           t.order = Object.keys(orderMap).length + 1000;
         }
       }
     });
 
-    // Sort locally by order to reflect reordering immediately
     updatedTodos.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-
     setTodos(updatedTodos);
 
-    // Persist new order to backend for items that changed.
-    // We'll send PUT requests for items in orderMap with new order value.
     try {
       const puts = Object.keys(orderMap).map((id) => {
         const found = updatedTodos.find((t) => String(t.id) === String(id));
@@ -401,9 +405,8 @@ const Home = () => {
       });
       await Promise.all(puts);
       toast.success("작업이 저장되었습니다!");
-      await fetchData(); // refresh from backend to ensure consistency
+      await fetchData();
     } catch (err) {
-      // If backend rejects unknown field 'order', we still keep local order.
       toast.warn(
         "순서 저장 중 일부 오류가 발생했습니다. 로컬 상태에 적용되었습니다."
       );
@@ -421,7 +424,6 @@ const Home = () => {
     );
   }
 
-  // Decide which list to render: when dragging show full filtered list so user can reorder global.
   const listToRender = dragActive ? filteredTodos : paginatedTodos;
 
   return (
@@ -828,40 +830,27 @@ const Home = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <button
-                                        className={
-                                          STATUS_BUTTON_STYLE +
-                                          " bg-white border border-blue-400 hover:bg-blue-100 dark:bg-gray-800 dark:border-blue-300 dark:hover:bg-gray-700 text-blue-600 dark:text-blue-300"
-                                        }
+                                      <VisibilityIcon
+                                        className="w-5 h-5 text-blue-600 dark:text-blue-300 cursor-pointer hover:text-blue-400"
                                         title="상세 보기"
                                         onClick={() => {
                                           setSelectedTask(todo);
                                           setShowDetail(true);
                                         }}
-                                      >
-                                        상세 보기
-                                      </button>
-                                      <button
-                                        className={
-                                          STATUS_BUTTON_STYLE +
-                                          " bg-yellow-400 hover:bg-yellow-500 text-white"
-                                        }
+                                      />
+                                      <EditIcon
+                                        className="w-5 h-5 text-yellow-500 cursor-pointer hover:text-yellow-600"
+                                        title="수정"
                                         onClick={() => {
                                           setEditingId(todo.id);
                                           setEditText(todo.todo);
                                         }}
-                                      >
-                                        수정
-                                      </button>
-                                      <button
-                                        className={
-                                          STATUS_BUTTON_STYLE +
-                                          " bg-red-500 hover:bg-red-600 text-white"
-                                        }
+                                      />
+                                      <DeleteIcon
+                                        className="w-5 h-5 text-red-500 cursor-pointer hover:text-red-600"
+                                        title="삭제"
                                         onClick={() => handleDelete(todo.id)}
-                                      >
-                                        삭제
-                                      </button>
+                                      />
                                     </>
                                   )}
                                 </div>

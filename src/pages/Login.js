@@ -67,7 +67,7 @@ const Login = () => {
         return;
       }
       localStorage.setItem("token", user.id);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.removeItem("user");
       toast.success("로그인 성공!");
       setIsSubmitting(false);
       navigate("/");
