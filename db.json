@@ -241,101 +241,455 @@
       "userId": "u10"
     },
     {
-      "id": "T100",
+      "id": "T041",
       "todo": "Finalize verification of system logs and financial data for year-end closing.",
       "completed": false,
       "userId": "u15"
+    },
+    {
+      "id": "T042",
+      "todo": "Implement role-based access control for internal admin panel.",
+      "completed": true,
+      "userId": "u01"
+    },
+    {
+      "id": "T043",
+      "todo": "Refactor payment gateway integration for better error handling.",
+      "completed": false,
+      "userId": "u02"
+    },
+    {
+      "id": "T044",
+      "todo": "Conduct load testing for microservices to identify bottlenecks.",
+      "completed": null,
+      "userId": "u03"
+    },
+    {
+      "id": "T045",
+      "todo": "Update marketing analytics dashboard to include new KPIs.",
+      "completed": true,
+      "userId": "u04"
+    },
+    {
+      "id": "T046",
+      "todo": "Write deployment scripts for Kubernetes cluster updates.",
+      "completed": false,
+      "userId": "u05"
+    },
+    {
+      "id": "T047",
+      "todo": "Design email templates for product announcements.",
+      "completed": null,
+      "userId": "u06"
+    },
+    {
+      "id": "T048",
+      "todo": "Optimize database indexes for faster query execution.",
+      "completed": true,
+      "userId": "u07"
+    },
+    {
+      "id": "T049",
+      "todo": "Implement automated backup for PostgreSQL databases.",
+      "completed": false,
+      "userId": "u08"
+    },
+    {
+      "id": "T050",
+      "todo": "Document API endpoints with Swagger for easier developer onboarding.",
+      "completed": null,
+      "userId": "u09"
+    },
+    {
+      "id": "T051",
+      "todo": "Review security audit findings and apply remediation steps.",
+      "completed": true,
+      "userId": "u10"
+    },
+    {
+      "id": "T052",
+      "todo": "Integrate payment retry logic for failed transactions.",
+      "completed": false,
+      "userId": "u11"
+    },
+    {
+      "id": "T053",
+      "todo": "Implement dark mode toggle for web dashboard.",
+      "completed": null,
+      "userId": "u12"
+    },
+    {
+      "id": "T054",
+      "todo": "Write technical blog post on new microservices architecture.",
+      "completed": true,
+      "userId": "u13"
+    },
+    {
+      "id": "T055",
+      "todo": "Update internal wiki with new project standards.",
+      "completed": false,
+      "userId": "u14"
+    },
+    {
+      "id": "T056",
+      "todo": "Analyze API logs to identify common error patterns.",
+      "completed": null,
+      "userId": "u15"
+    },
+    {
+      "id": "T057",
+      "todo": "Optimize image compression for mobile app assets.",
+      "completed": true,
+      "userId": "u01"
+    },
+    {
+      "id": "T058",
+      "todo": "Conduct A/B testing for new landing page variants.",
+      "completed": false,
+      "userId": "u02"
+    },
+    {
+      "id": "T059",
+      "todo": "Implement continuous deployment pipeline for backend services.",
+      "completed": null,
+      "userId": "u03"
+    },
+    {
+      "id": "T060",
+      "todo": "Refactor legacy code modules for maintainability and readability.",
+      "completed": true,
+      "userId": "u04"
+    },
+    {
+      "id": "T061",
+      "todo": "Update customer support FAQ with recent product changes.",
+      "completed": false,
+      "userId": "u05"
+    },
+    {
+      "id": "T062",
+      "todo": "Design data validation rules for new API endpoints.",
+      "completed": null,
+      "userId": "u06"
+    },
+    {
+      "id": "T063",
+      "todo": "Review pull requests for critical bug fixes.",
+      "completed": true,
+      "userId": "u07"
+    },
+    {
+      "id": "T064",
+      "todo": "Implement OAuth2 authentication for third-party apps.",
+      "completed": false,
+      "userId": "u08"
+    },
+    {
+      "id": "T065",
+      "todo": "Write unit tests for newly refactored modules.",
+      "completed": null,
+      "userId": "u09"
+    },
+    {
+      "id": "T066",
+      "todo": "Deploy monitoring dashboards to track key system metrics.",
+      "completed": true,
+      "userId": "u10"
+    },
+    {
+      "id": "T067",
+      "todo": "Analyze user behavior data to improve UI/UX decisions.",
+      "completed": false,
+      "userId": "u11"
+    },
+    {
+      "id": "T068",
+      "todo": "Implement caching for frequently accessed API endpoints.",
+      "completed": null,
+      "userId": "u12"
+    },
+    {
+      "id": "T069",
+      "todo": "Document server configuration settings for DevOps team.",
+      "completed": true,
+      "userId": "u13"
+    },
+    {
+      "id": "T070",
+      "todo": "Review security compliance checklists for upcoming audit.",
+      "completed": false,
+      "userId": "u14"
+    },
+    {
+      "id": "T071",
+      "todo": "Refactor frontend components for performance optimization.",
+      "completed": null,
+      "userId": "u15"
+    },
+    {
+      "id": "T072",
+      "todo": "Prepare monthly business performance report.",
+      "completed": true,
+      "userId": "u01"
+    },
+    {
+      "id": "T073",
+      "todo": "Implement email notification system for critical alerts.",
+      "completed": false,
+      "userId": "u02"
+    },
+    {
+      "id": "T074",
+      "todo": "Update CI/CD pipeline to include new static analysis tool.",
+      "completed": null,
+      "userId": "u03"
+    },
+    {
+      "id": "T075",
+      "todo": "Optimize SQL queries to reduce database load.",
+      "completed": true,
+      "userId": "u04"
+    },
+    {
+      "id": "T076",
+      "todo": "Create onboarding video tutorials for new employees.",
+      "completed": false,
+      "userId": "u05"
+    },
+    {
+      "id": "T077",
+      "todo": "Integrate push notifications for real-time updates.",
+      "completed": null,
+      "userId": "u06"
+    },
+    {
+      "id": "T078",
+      "todo": "Conduct performance profiling for backend services.",
+      "completed": true,
+      "userId": "u07"
+    },
+    {
+      "id": "T079",
+      "todo": "Document API versioning strategy for internal developers.",
+      "completed": false,
+      "userId": "u08"
+    },
+    {
+      "id": "T080",
+      "todo": "Review logging and monitoring setup for critical services.",
+      "completed": null,
+      "userId": "u09"
+    },
+    {
+      "id": "T081",
+      "todo": "Implement multi-factor authentication for admin accounts.",
+      "completed": true,
+      "userId": "u10"
+    },
+    {
+      "id": "T082",
+      "todo": "Optimize asset loading for faster mobile app performance.",
+      "completed": false,
+      "userId": "u11"
+    },
+    {
+      "id": "T083",
+      "todo": "Write end-to-end tests for customer checkout flow.",
+      "completed": null,
+      "userId": "u12"
+    },
+    {
+      "id": "T084",
+      "todo": "Refactor authentication module to support OAuth2 integration.",
+      "completed": true,
+      "userId": "u13"
+    },
+    {
+      "id": "T085",
+      "todo": "Update knowledge base articles for latest product updates.",
+      "completed": false,
+      "userId": "u14"
+    },
+    {
+      "id": "T086",
+      "todo": "Analyze error logs to reduce system downtime.",
+      "completed": null,
+      "userId": "u15"
+    },
+    {
+      "id": "T087",
+      "todo": "Implement automated database migrations during deployments.",
+      "completed": true,
+      "userId": "u01"
+    },
+    {
+      "id": "T088",
+      "todo": "Prepare training materials for DevOps best practices.",
+      "completed": false,
+      "userId": "u02"
+    },
+    {
+      "id": "T089",
+      "todo": "Optimize network configurations for improved latency.",
+      "completed": null,
+      "userId": "u03"
+    },
+    {
+      "id": "T090",
+      "todo": "Design new API endpoints for upcoming features.",
+      "completed": true,
+      "userId": "u04"
+    },
+    {
+      "id": "T091",
+      "todo": "Write technical documentation for client SDK.",
+      "completed": false,
+      "userId": "u05"
+    },
+    {
+      "id": "T092",
+      "todo": "Integrate monitoring alerts with Slack and email notifications.",
+      "completed": null,
+      "userId": "u06"
+    },
+    {
+      "id": "T093",
+      "todo": "Refactor logging framework for consistency across microservices.",
+      "completed": true,
+      "userId": "u07"
+    },
+    {
+      "id": "T094",
+      "todo": "Implement caching strategy for Redis to improve response time in internal dashboard.",
+      "completed": false,
+      "userId": "u08"
+    },
+    {
+      "id": "T095",
+      "todo": "Write automated UI tests for new React components in the customer portal.",
+      "completed": null,
+      "userId": "u09"
+    },
+    {
+      "id": "T096",
+      "todo": "Refactor JWT authentication logic to enhance security and maintainability.",
+      "completed": true,
+      "userId": "u10"
+    },
+    {
+      "id": "T097",
+      "todo": "Optimize API response times by implementing rate limiting and caching.",
+      "completed": false,
+      "userId": "u11"
+    },
+    {
+      "id": "T098",
+      "todo": "Document deployment process for backend services.",
+      "completed": null,
+      "userId": "u12"
+    },
+    {
+      "id": "T099",
+      "todo": "Review code quality metrics and provide feedback to developers.",
+      "completed": true,
+      "userId": "u13"
+    },
+    {
+      "id": "T100",
+      "todo": "Implement server-side logging and error tracking for production environment.",
+      "completed": false,
+      "userId": "u14"
     }
   ],
   "users": [
     {
       "id": "u01",
-      "username": "admin1",
+      "username": "admin",
       "password": "123456",
       "role": "admin"
     },
     {
       "id": "u02",
       "username": "An",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u03",
       "username": "Bao",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u04",
       "username": "Cuong",
-      "password": "1",
+      "password": "123456",
       "role": "manager"
     },
     {
       "id": "u05",
       "username": "Duy",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u06",
       "username": "Hoa",
-      "password": "1",
+      "password": "123456",
       "role": "viewer"
     },
     {
       "id": "u07",
       "username": "Phong",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u08",
       "username": "Giang",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u09",
       "username": "Hien",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u10",
       "username": "Lan",
-      "password": "1",
+      "password": "123456",
       "role": "manager"
     },
     {
       "id": "u11",
       "username": "Quang",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u12",
       "username": "Khanh",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u13",
       "username": "Long",
-      "password": "1",
+      "password": "123456",
       "role": "viewer"
     },
     {
       "id": "u14",
       "username": "Minh",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     },
     {
       "id": "u15",
       "username": "Nam",
-      "password": "1",
+      "password": "123456",
       "role": "user"
     }
   ]
