@@ -1,0 +1,21 @@
+{
+  "todo_app": "Todo App",
+  "all": "All",
+  "completed": "Completed",
+  "uncompleted": "Uncompleted",
+  "new": "New",
+  "priority": "Priority",
+  "normal": "Normal",
+  "add_task": "Add Task",
+  "task_placeholder": "Enter your task...",
+  "user": "User",
+  "status": "Status",
+  "actions": "Actions",
+  "detail": "Detail",
+  "edit": "Edit",
+  "delete": "Delete",
+  "close": "Close",
+  "language": "Language",
+  "english": "English",
+  "vietnamese": "Vietnamese"
+}

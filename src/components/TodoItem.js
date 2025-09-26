@@ -16,7 +16,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
     }
   };
 
-  // icon trạng thái
+  // Status icon
   let statusIcon = null;
   if (todo.completed === undefined || todo.completed === null) {
     statusIcon = <span className="text-yellow-500 font-bold text-lg">?</span>;
@@ -36,7 +36,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
     );
   }
 
-  // Toggle
+  // Toggle status
   const handleToggleStatus = () => {
     let nextStatus;
     if (todo.completed === undefined || todo.completed === null) {
@@ -52,9 +52,11 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
   return (
     <div className="flex items-center justify-between py-2 border-b">
       <div
-        className={`flex-1 cursor-pointer break-words truncate max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl ${todo.completed === true ? "line-through text-gray-400" : ""}`}
+        className={`flex-1 cursor-pointer break-words truncate max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl ${
+          todo.completed === true ? "line-through text-gray-400" : ""
+        }`}
         onClick={isEditing ? undefined : () => onDetail(todo)}
-        title="상세보기"
+        title="View Details"
       >
         {isEditing ? (
           <form
@@ -80,14 +82,14 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
                 type="submit"
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow transition-all duration-150"
               >
-                저장
+                Save
               </button>
               <button
                 type="button"
                 className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs font-semibold transition-all duration-150"
                 onClick={() => setIsEditing(false)}
               >
-                취소
+                Cancel
               </button>
             </div>
           </form>
@@ -106,7 +108,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
                   : "bg-yellow-100 border-yellow-500"
             }
           `}
-          title="상태 변경"
+          title="Change Status"
           onClick={handleToggleStatus}
         >
           {statusIcon}
@@ -115,13 +117,13 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
           className="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded text-xs text-white"
           onClick={handleEdit}
         >
-          수정
+          Edit
         </button>
         <button
           className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-xs text-white"
           onClick={() => onDelete(todo.id)}
         >
-          삭제
+          Delete
         </button>
         <button
           className="bg-blue-400 hover:bg-blue-500 px-3 py-1 rounded text-xs text-white"
@@ -129,7 +131,7 @@ const TodoItem = ({ todo, onDelete, onToggle, onUpdate, onDetail }) => {
           disabled={isEditing}
           style={isEditing ? { pointerEvents: "none", opacity: 0.5 } : {}}
         >
-          상세보기
+          Details
         </button>
       </div>
     </div>

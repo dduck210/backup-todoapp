@@ -21,7 +21,7 @@ const SearchTask = ({ onSearch }) => {
       <input
         type="text"
         className="w-full h-12 px-4 py-2 border border-blue-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-gray-500 transition text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 mb-4"
-        placeholder="작업 검색..."
+        placeholder="Search tasks..."
         value={keyword}
         onChange={handleChange}
         maxLength={100}

@@ -1,364 +1,340 @@
 {
   "todos": [
     {
-      "id": "e7d5",
-      "todo": "gdfgdgg",
+      "id": "T001",
+      "todo": "Improve the JWT token expiration logic in the login API.",
       "completed": true,
-      "userId": "f02c"
+      "userId": "u01"
     },
     {
-      "id": "af1a",
-      "todo": "fkjsdhfksdjfds",
+      "id": "T002",
+      "todo": "Apply i18n setup to support multiple languages on the frontend.",
       "completed": false,
-      "userId": "a5a4"
+      "userId": "u02"
     },
     {
-      "id": "001",
-      "todo": "Collect and compile detailed project documentation to prepare for the upcoming team-wide project review session",
-      "completed": true,
-      "userId": "f02c"
-    },
-    {
-      "id": "002",
-      "todo": "Analyze and resolve the critical login issue that prevents users from accessing their accounts across multiple platforms",
+      "id": "T003",
+      "todo": "Integrate the static analysis tool SonarQube into the CI/CD pipeline.",
       "completed": null,
-      "userId": "a5a4"
+      "userId": "u03"
     },
     {
-      "id": "003",
-      "todo": "Read, evaluate, and provide thorough feedback on all pending pull requests submitted by team members this week",
+      "id": "T004",
+      "todo": "Draft the onboarding email campaign for new customers.",
+      "completed": true,
+      "userId": "u04"
+    },
+    {
+      "id": "T005",
+      "todo": "Automate AWS RDS backup scheduling to reduce recovery time during failures.",
       "completed": false,
-      "userId": "6315"
+      "userId": "u05"
     },
     {
-      "id": "004",
-      "todo": "Perform end-to-end testing of all new features developed for the current sprint to ensure they meet quality standards",
+      "id": "T006",
+      "todo": "Write a code review guideline document and share it company-wide.",
       "completed": null,
-      "userId": "2747"
+      "userId": "u06"
     },
     {
-      "id": "005",
-      "todo": "Redesign the user interface of the main dashboard according to the latest feedback from the product team lead",
+      "id": "T007",
+      "todo": "Update the onboarding checklist for new hires as requested by HR.",
       "completed": true,
-      "userId": "07af"
+      "userId": "u07"
     },
     {
-      "id": "006",
-      "todo": "Prepare a comprehensive weekly report outlining individual performance metrics for submission to upper management",
-      "completed": true,
-      "userId": "c2a5"
+      "id": "T008",
+      "todo": "Implement dark mode feature for the React Native mobile app.",
+      "completed": false,
+      "userId": "u08"
     },
     {
-      "id": "007",
-      "todo": "Organize and facilitate an internal group meeting to discuss long-term project planning and resource allocation",
+      "id": "T009",
+      "todo": "Run DB query performance tests and optimize bottlenecks.",
       "completed": null,
-      "userId": "fe0c"
+      "userId": "u09"
     },
     {
-      "id": "008",
-      "todo": "Review and optimize complex SQL queries in the production database to significantly reduce system latency",
+      "id": "T010",
+      "todo": "Revise firewall rules to comply with internal network security policies.",
       "completed": true,
-      "userId": "10"
+      "userId": "u10"
     },
     {
-      "id": "009",
-      "todo": "Refactor the entire user authentication module to comply with the company's latest security protocols",
-      "completed": true,
-      "userId": "f02c"
-    },
-    {
-      "id": "010",
-      "todo": "Write a comprehensive suite of automated unit tests to maintain code quality for the user management module",
+      "id": "T011",
+      "todo": "Write a comparison report on major competitors’ products.",
       "completed": false,
-      "userId": "2747"
+      "userId": "u11"
     },
     {
-      "id": "011",
-      "todo": "Update and verify all external dependencies to minimize security risks and ensure system stability",
+      "id": "T012",
+      "todo": "Replace Kubernetes cluster logging system with Loki + Grafana.",
       "completed": null,
-      "userId": "07af"
+      "userId": "u12"
     },
     {
-      "id": "012",
-      "todo": "Draft detailed Swagger documentation for all live APIs to aid current and future development efforts",
-      "completed": false,
-      "userId": "a5a4"
-    },
-    {
-      "id": "013",
-      "todo": "Review and revise the current security policy in collaboration with the information safety assurance team",
+      "id": "T013",
+      "todo": "Apply improvements to comply with WCAG 2.1 accessibility standards on the website.",
       "completed": true,
-      "userId": "c2a5"
+      "userId": "u13"
     },
     {
-      "id": "014",
-      "todo": "Upgrade the system event logging mechanism to facilitate easier debugging and incident analysis",
+      "id": "T014",
+      "todo": "Organize monthly expense records for internal accounting reports.",
+      "completed": true,
+      "userId": "u14"
+    },
+    {
+      "id": "T015",
+      "todo": "Collaborate with the security team to establish a regular penetration testing plan.",
+      "completed": false,
+      "userId": "u15"
+    },
+    {
+      "id": "T016",
+      "todo": "Document changes to the GraphQL API schema.",
+      "completed": true,
+      "userId": "u01"
+    },
+    {
+      "id": "T017",
+      "todo": "Write a report analyzing new customer data.",
+      "completed": false,
+      "userId": "u02"
+    },
+    {
+      "id": "T018",
+      "todo": "Write test cases for UI library components.",
       "completed": null,
-      "userId": "f02c"
+      "userId": "u03"
     },
     {
-      "id": "015",
-      "todo": "Aggregate and analyze user feedback collected from surveys to inform improvements to newly launched features",
-      "completed": false,
-      "userId": "10"
-    },
-    {
-      "id": "016",
-      "todo": "Conduct comprehensive mobile responsiveness testing for all system interfaces on various devices and viewports",
+      "id": "T019",
+      "todo": "Write and publish a technical post on the company blog.",
       "completed": true,
-      "userId": "fe0c"
+      "userId": "u04"
     },
     {
-      "id": "017",
-      "todo": "Resolve all merge conflicts when integrating new feature branches into the development environment",
+      "id": "T020",
+      "todo": "Prepare cloud security training materials for internal education.",
+      "completed": false,
+      "userId": "u05"
+    },
+    {
+      "id": "T021",
+      "todo": "Design a new landing page as requested by the marketing team.",
+      "completed": true,
+      "userId": "u06"
+    },
+    {
+      "id": "T022",
+      "todo": "Analyze Redis cache hit ratio and apply improvements.",
       "completed": null,
-      "userId": "6315"
+      "userId": "u07"
     },
     {
-      "id": "018",
-      "todo": "Deploy a new staging environment and simulate failover scenarios to validate the web application’s resilience",
+      "id": "T023",
+      "todo": "Add social login functionality based on OAuth2.",
       "completed": false,
-      "userId": "07af"
+      "userId": "u08"
     },
     {
-      "id": "019",
-      "todo": "Investigate system error logs in detail to identify causes of unexpected performance degradation",
+      "id": "T024",
+      "todo": "Measure API response times and meet SLA targets.",
       "completed": true,
-      "userId": "a5a4"
+      "userId": "u09"
     },
     {
-      "id": "020",
-      "todo": "Design a new brand logo based on requirements from the marketing team and update all collateral materials",
-      "completed": false,
-      "userId": "2747"
-    },
-    {
-      "id": "021",
-      "todo": "Update the project's README file and deliver comprehensive installation instructions for public release",
+      "id": "T025",
+      "todo": "Write the roadmap for the next quarter and share it with the team.",
       "completed": null,
-      "userId": "c2a5"
+      "userId": "u10"
     },
     {
-      "id": "022",
-      "todo": "Organize the source code folder structure according to the onboarding guidelines for easier team collaboration",
+      "id": "T026",
+      "todo": "Automate test coverage reporting in the CI environment.",
+      "completed": false,
+      "userId": "u11"
+    },
+    {
+      "id": "T027",
+      "todo": "Optimize Docker image builds to reduce build time.",
       "completed": true,
-      "userId": "fe0c"
+      "userId": "u12"
     },
     {
-      "id": "023",
-      "todo": "Set up a fully automated CI/CD pipeline to run code quality checks and deployment procedures on every commit",
+      "id": "T028",
+      "todo": "Update the FAQ page for the customer support team.",
       "completed": null,
-      "userId": "f02c"
+      "userId": "u13"
     },
     {
-      "id": "024",
-      "todo": "Establish a robust automated backup strategy for the production database to prevent any potential data loss",
+      "id": "T029",
+      "todo": "Improve push notification functionality in the mobile app.",
       "completed": false,
-      "userId": "6315"
+      "userId": "u14"
     },
     {
-      "id": "025",
-      "todo": "Prepare a detailed onboarding guide to help new team members quickly adapt to internal processes and tools",
+      "id": "T030",
+      "todo": "Work with the accounting team to prepare quarterly financial reports.",
+      "completed": true,
+      "userId": "u15"
+    },
+    {
+      "id": "T031",
+      "todo": "Update the production incident response manual.",
+      "completed": false,
+      "userId": "u01"
+    },
+    {
+      "id": "T032",
+      "todo": "Distribute employee satisfaction survey as requested by HR.",
       "completed": null,
-      "userId": "a5a4"
+      "userId": "u02"
     },
     {
-      "id": "026",
-      "todo": "Update documentation for all newly created API endpoints to ensure back-end and front-end synchronization",
+      "id": "T033",
+      "todo": "Redesign ElasticSearch indexes to improve search speed.",
       "completed": true,
-      "userId": "c2a5"
+      "userId": "u03"
     },
     {
-      "id": "027",
-      "todo": "Test cross-browser compatibility for all major browsers including Chrome, Firefox, Edge, and Safari",
+      "id": "T034",
+      "todo": "Collaborate with the UI/UX team to create a new dashboard prototype.",
       "completed": false,
-      "userId": "07af"
+      "userId": "u04"
     },
     {
-      "id": "028",
-      "todo": "Complete and validate the code merging process from staging to production after final QA approval",
+      "id": "T035",
+      "todo": "Optimize S3 data lifecycle policies.",
+      "completed": true,
+      "userId": "u05"
+    },
+    {
+      "id": "T036",
+      "todo": "Write QA test cases for new features.",
       "completed": null,
-      "userId": "10"
+      "userId": "u06"
     },
     {
-      "id": "029",
-      "todo": "Update and revise the overall system architecture diagram to reflect the current microservice landscape",
-      "completed": false,
-      "userId": "fe0c"
-    },
-    {
-      "id": "030",
-      "todo": "Design a visual dashboard to display real-time business metrics and support organizational decision making",
+      "id": "T037",
+      "todo": "Integrate server monitoring alerts with Slack.",
       "completed": true,
-      "userId": "f02c"
+      "userId": "u07"
     },
     {
-      "id": "031",
-      "todo": "Gather and analyze actual user behavioral data to determine the most effective UI/UX improvements",
+      "id": "T038",
+      "todo": "Update the privacy policy in collaboration with the legal team.",
       "completed": false,
-      "userId": "2747"
+      "userId": "u08"
     },
     {
-      "id": "032",
-      "todo": "Implement and test automated email notification workflows for critical system-wide events and alerts",
-      "completed": true,
-      "userId": "c2a5"
-    },
-    {
-      "id": "033",
-      "todo": "Conduct end-to-end integration testing for the international payment gateway to ensure smooth transactions",
+      "id": "T039",
+      "todo": "Conduct disaster recovery drills and report results.",
       "completed": null,
-      "userId": "07af"
+      "userId": "u09"
     },
     {
-      "id": "034",
-      "todo": "Review, update, and expand the test case library for all key product modules to strengthen QA coverage",
+      "id": "T040",
+      "todo": "Build a new data pipeline as requested by the data team.",
       "completed": true,
-      "userId": "6315"
+      "userId": "u10"
     },
     {
-      "id": "035",
-      "todo": "Enhance the user registration workflow to reduce drop-off rates and provide a seamless onboarding experience",
+      "id": "T100",
+      "todo": "Finalize verification of system logs and financial data for year-end closing.",
       "completed": false,
-      "userId": "a5a4"
-    },
-    {
-      "id": "036",
-      "todo": "Host a group code review session and share best practices to improve programming standards across the team",
-      "completed": true,
-      "userId": "2747"
-    },
-    {
-      "id": "037",
-      "todo": "Draft a new privacy policy in consultation with the company’s legal and compliance departments",
-      "completed": false,
-      "userId": "fe0c"
-    },
-    {
-      "id": "038",
-      "todo": "Produce a comprehensive demo video guiding users to effectively utilize the latest system features",
-      "completed": null,
-      "userId": "10"
-    },
-    {
-      "id": "039",
-      "todo": "Manage and update granular user permissions for the admin console according to the latest security policies",
-      "completed": false,
-      "userId": "f02c"
-    },
-    {
-      "id": "040",
-      "todo": "Write a technical blog post to share microservice performance optimization solutions implemented by the team",
-      "completed": null,
-      "userId": "c2a5"
-    },
-    {
-      "id": "041",
-      "todo": "Prepare the monthly financial statements, including the balance sheet, profit and loss statement, and cash flow report in accordance with company policy",
-      "completed": false,
-      "userId": "f02c"
-    },
-    {
-      "id": "042",
-      "todo": "Reconcile all bank accounts for the current month and identify discrepancies for further investigation with the finance manager",
-      "completed": true,
-      "userId": "f02c"
-    },
-    {
-      "id": "043",
-      "todo": "Record and verify all accounts payable and accounts receivable transactions in the accounting software by the end of the working day",
-      "completed": false,
-      "userId": "f02c"
-    },
-    {
-      "id": "044",
-      "todo": "Compile and submit the monthly VAT (Value Added Tax) declaration documents to the local tax authority before the deadline",
-      "completed": true,
-      "userId": "f02c"
-    },
-    {
-      "id": "045",
-      "todo": "Review payroll records and ensure accurate calculation of employee wages and deductions for the upcoming payroll cycle",
-      "completed": null,
-      "userId": "f02c"
-    },
-    {
-      "id": "046",
-      "todo": "Prepare and optimize quarterly budget reports for departmental managers, including variance analysis against actual expenditures",
-      "completed": false,
-      "userId": "f02c"
-    },
-    {
-      "id": "047",
-      "todo": "Coordinate with external auditors to provide required documents and explanations for the annual audit process",
-      "completed": true,
-      "userId": "f02c"
-    },
-    {
-      "id": "048",
-      "todo": "Monitor and record all fixed asset purchases, disposals, and depreciation schedules throughout the fiscal year",
-      "completed": null,
-      "userId": "f02c"
-    },
-    {
-      "id": "049",
-      "todo": "Verify supporting documents and approval for all company expense reimbursements prior to processing payment",
-      "completed": false,
-      "userId": "f02c"
-    },
-    {
-      "id": "050",
-      "todo": "Develop and maintain a checklist to ensure full compliance with current accounting standards and internal control procedures",
-      "completed": true,
-      "userId": "f02c"
+      "userId": "u15"
     }
   ],
   "users": [
     {
-      "id": "1",
-      "username": "admin",
+      "id": "u01",
+      "username": "admin1",
       "password": "123456",
       "role": "admin"
     },
     {
-      "id": "f02c",
-      "username": "user1",
+      "id": "u02",
+      "username": "An",
       "password": "1",
       "role": "user"
     },
     {
-      "id": "6315",
-      "username": "user2",
+      "id": "u03",
+      "username": "Bao",
       "password": "1",
       "role": "user"
     },
     {
-      "id": "2747",
-      "username": "user3",
+      "id": "u04",
+      "username": "Cuong",
+      "password": "1",
+      "role": "manager"
+    },
+    {
+      "id": "u05",
+      "username": "Duy",
       "password": "1",
       "role": "user"
     },
     {
-      "id": "07af",
-      "username": "user4",
+      "id": "u06",
+      "username": "Hoa",
+      "password": "1",
+      "role": "viewer"
+    },
+    {
+      "id": "u07",
+      "username": "Phong",
       "password": "1",
       "role": "user"
     },
     {
-      "id": "a5a4",
-      "username": "user5",
+      "id": "u08",
+      "username": "Giang",
       "password": "1",
       "role": "user"
     },
     {
-      "id": "c2a5",
-      "username": "user6",
+      "id": "u09",
+      "username": "Hien",
       "password": "1",
       "role": "user"
     },
     {
-      "id": "fe0c",
-      "username": "user7",
+      "id": "u10",
+      "username": "Lan",
+      "password": "1",
+      "role": "manager"
+    },
+    {
+      "id": "u11",
+      "username": "Quang",
+      "password": "1",
+      "role": "user"
+    },
+    {
+      "id": "u12",
+      "username": "Khanh",
+      "password": "1",
+      "role": "user"
+    },
+    {
+      "id": "u13",
+      "username": "Long",
+      "password": "1",
+      "role": "viewer"
+    },
+    {
+      "id": "u14",
+      "username": "Minh",
+      "password": "1",
+      "role": "user"
+    },
+    {
+      "id": "u15",
+      "username": "Nam",
       "password": "1",
       "role": "user"
     }

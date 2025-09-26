@@ -1,5 +1,6 @@
+// src/components/Header.js
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import useDarkMode from "./hooks/useDarkMode";
 
@@ -7,30 +8,52 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("Unknown User");
   const [darkMode, setDarkMode] = useDarkMode();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
 
-  // Cập nhật user khi đổi route
+  // Lấy username từ localStorage và cập nhật state
   useEffect(() => {
     setMenuOpen(false);
+    setUserMenuOpen(false);
+
     const token = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
     setIsLoggedIn(!!token);
 
-    try {
-      setUsername(storedUser ? JSON.parse(storedUser).username : "");
-    } catch {
-      setUsername(storedUser || "");
+    if (token && storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUsername(parsedUser.username || "Unknown User"); // Chỉ hiển thị username
+      } catch {
+        setUsername("Unknown User");
+      }
+    } else {
+      setUsername("Unknown User");
     }
   }, [location]);
 
+  // Đóng dropdown khi click ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleLogout = () => {
+    // Xóa tất cả dữ liệu liên quan đến user
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
     localStorage.removeItem("user");
+    localStorage.removeItem("username"); // <- thêm dòng này
     setIsLoggedIn(false);
-    toast.success("성공적으로 로그아웃되었습니다!");
+    setUsername("Unknown User");
+    toast.success("Successfully logged out!");
     navigate("/login");
   };
 
@@ -46,28 +69,19 @@ const Header = () => {
             className="hover:text-blue-200 dark:hover:text-gray-300 transition"
             onClick={closeMenu}
           >
-            투두 앱
+            Internal CRM System
           </Link>
         </h1>
 
-        {/* Hamburger */}
+        {/* Hamburger (mobile menu) */}
         <button
           className="sm:hidden flex flex-col justify-center items-center ml-auto"
           onClick={() => setMenuOpen((open) => !open)}
-          aria-label="메뉴 열기"
+          aria-label="Open menu"
         >
-          <span
-            aria-hidden="true"
-            className="block w-7 h-1 bg-white rounded my-[3px]"
-          ></span>
-          <span
-            aria-hidden="true"
-            className="block w-7 h-1 bg-white rounded my-[3px]"
-          ></span>
-          <span
-            aria-hidden="true"
-            className="block w-7 h-1 bg-white rounded my-[3px]"
-          ></span>
+          <span className="block w-7 h-1 bg-white rounded my-[3px]"></span>
+          <span className="block w-7 h-1 bg-white rounded my-[3px]"></span>
+          <span className="block w-7 h-1 bg-white rounded my-[3px]"></span>
         </button>
 
         {/* Navigation */}
@@ -77,60 +91,64 @@ const Header = () => {
             absolute sm:static top-full left-0 right-0 w-full sm:w-auto transition-all duration-200 z-40
             ${menuOpen ? "flex" : "hidden sm:flex"}`}
         >
-          {/* Dark/Light Toggle */}
-          <button
-            className="px-2 py-1 rounded bg-white/20 hover:bg-white/30 dark:bg-gray-700 dark:hover:bg-gray-600 transition w-full sm:w-auto"
-            onClick={() => {
-              setDarkMode((v) => !v);
-              closeMenu();
-            }}
-            title="다크 모드 전환"
-          >
-            {darkMode ? "🌙 다크" : "☀️ 라이트"}
-          </button>
-
-          {/* Menu items */}
           {isLoggedIn ? (
-            <>
-              <Link
-                to="/"
-                className="hover:underline block px-4 py-2 sm:p-0"
-                onClick={closeMenu}
+            <div className="relative" ref={userMenuRef}>
+              {/* Avatar button */}
+              <button
+                onClick={() => setUserMenuOpen((prev) => !prev)}
+                className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-2 border-white"
               >
-                홈
-              </Link>
-              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto items-center">
-                <span className="font-semibold text-white block px-4 py-2 sm:p-0">
-                  안녕하세요, {username}님!
+                <span className="text-blue-700 font-bold">
+                  {username?.charAt(0).toUpperCase()}
                 </span>
-                <button
-                  className="px-3 py-1 bg-gray-50 text-blue-700 rounded hover:bg-blue-200 transition w-full sm:w-auto"
-                  onClick={() => {
-                    handleLogout();
-                    closeMenu();
-                  }}
-                >
-                  로그아웃
-                </button>
-              </div>
-            </>
+              </button>
+
+              {/* Dropdown */}
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
+                  {/* User info với avatar + username */}
+                  <div className="flex items-center gap-3 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                    <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-blue-700 font-bold">
+                      {username?.charAt(0).toUpperCase()}
+                    </div>
+                    <p className="font-semibold text-gray-800 dark:text-white">
+                      {username}
+                    </p>
+                  </div>
+
+                  <button
+                    className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={() => navigate("/profile")}
+                  >
+                    Profile
+                  </button>
+
+                  <button
+                    className="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={() => setDarkMode((v) => !v)}
+                  >
+                    {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                  </button>
+
+                  <button
+                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
-            <>
-              <Link
-                to="/login"
-                className="hover:underline block px-4 py-2 sm:p-0"
-                onClick={closeMenu}
+            <div className="flex items-center gap-2">
+              {/* Dark mode toggle */}
+              <button
+                className="px-2 py-1 rounded bg-white/20 hover:bg-white/30 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
+                onClick={() => setDarkMode((v) => !v)}
               >
-                로그인
-              </Link>
-              <Link
-                to="/register"
-                className="hover:underline block px-4 py-2 sm:p-0"
-                onClick={closeMenu}
-              >
-                회원가입
-              </Link>
-            </>
+                {darkMode ? "🌙" : "☀️"}
+              </button>
+            </div>
           )}
         </nav>
       </div>

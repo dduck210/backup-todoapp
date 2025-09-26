@@ -10,6 +10,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTranslation } from "react-i18next";
 
 const API_URL = "https://todo-backend-6c6i.onrender.com/todos";
 const USERS_API = "https://todo-backend-6c6i.onrender.com/users";
@@ -17,7 +18,9 @@ const STATUS_BUTTON_STYLE =
   "min-w-[132px] h-12 px-4 text-base font-medium border rounded-md flex items-center justify-center transition";
 
 const Home = () => {
-  // Lấy user từ API dựa vào token
+  const { t, i18n } = useTranslation();
+
+  // Get user from API using token
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -92,9 +95,7 @@ const Home = () => {
       setTodos(todoData);
       setLoading(false);
     } catch (error) {
-      setNotification(
-        "데이터를 불러올 수 없습니다. 나중에 다시 시도해 주세요!"
-      );
+      setNotification("Could not load data. Please try again later!");
       setLoading(false);
     }
   }, [isAdmin, userId]);
@@ -145,22 +146,23 @@ const Home = () => {
         res.data,
         ...prev.map((t, i) => ({ ...t, order: t.order ?? i + 1 })),
       ]);
-      toast.success("작업이 성공적으로 추가되었습니다!");
+
+      toast.success("Task added successfully!");
     } catch {
-      setNotification("작업 추가 중 오류가 발생했습니다!");
+      setNotification("An error occurred while adding the task!");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("이 작업을 정말 삭제하시겠습니까?")) return;
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
     try {
       await axios.delete(`${API_URL}/${id}`);
       await fetchData();
-      toast.success("작업이 삭제되었습니다!");
+      toast.success("Task deleted!");
     } catch (err) {
-      toast.error("작업을 삭제할 수 없습니다!");
+      toast.error("Task cannot be deleted!");
     }
   };
 
@@ -171,9 +173,9 @@ const Home = () => {
       const found = todos.find((todo) => todo.id === id);
       await axios.put(`${API_URL}/${id}`, { ...found, completed });
       await fetchData();
-      toast.success("상태가 업데이트되었습니다!");
+      toast.success("Status updated!");
     } catch {
-      setNotification("상태 업데이트에 실패했습니다!");
+      setNotification("Status update failed!");
     } finally {
       setChangingStatusId(null);
     }
@@ -182,17 +184,17 @@ const Home = () => {
   const handleEdit = async (id, text) => {
     const found = todos.find((todo) => todo.id === id);
     if (!text || text === "") {
-      toast.error("작업 내용을 입력하세요!");
+      toast.error("Please enter the task description!");
       return false;
     }
     try {
       const updated = { ...found, todo: text };
       await axios.put(`${API_URL}/${id}`, updated);
       await fetchData();
-      toast.success("작업이 수정되었습니다!");
+      toast.success("The task has been updated!");
       return true;
     } catch {
-      toast.error("작업 수정 중 오류가 발생했습니다!");
+      toast.error("An error occurred while editing the task!");
       return false;
     }
   };
@@ -204,7 +206,8 @@ const Home = () => {
   };
 
   const handleBulkDelete = async () => {
-    if (!window.confirm("선택한 작업을 삭제하시겠습니까?")) return;
+    if (!window.confirm("Are you sure you want to delete the selected tasks?"))
+      return;
     try {
       await Promise.all(
         selectedIds.map((id) => {
@@ -216,9 +219,9 @@ const Home = () => {
       );
       setSelectedIds([]);
       await fetchData();
-      toast.success("선택한 작업들이 삭제되었습니다!");
+      toast.success("Selected tasks have been deleted!");
     } catch (err) {
-      toast.error("일괄 삭제에 실패했습니다!");
+      toast.error("Bulk delete failed!");
     }
   };
 
@@ -236,9 +239,9 @@ const Home = () => {
         })
       );
       await fetchData();
-      toast.success("선택한 작업들의 상태가 업데이트되었습니다!");
+      toast.success("The status of the selected tasks has been updated!");
     } catch (err) {
-      toast.error("일괄 상태 변경에 실패했습니다!");
+      toast.error("Failed to change the bulk status!");
     }
   };
 
@@ -249,13 +252,9 @@ const Home = () => {
         priority: !todo.priority,
       });
       await fetchData();
-      toast.success(
-        !todo.priority
-          ? "우선순위로 지정되었습니다!"
-          : "우선순위가 해제되었습니다!"
-      );
+      toast.success(!todo.priority ? "Prioritized!" : "Priority removed!");
     } catch (err) {
-      toast.error("우선순위 업데이트에 실패했습니다!");
+      toast.error("Failed to update priority!");
     }
   };
 
@@ -298,7 +297,7 @@ const Home = () => {
 
   const exportToCSV = () => {
     if (!filteredTodos.length) {
-      toast.warn("내보낼 작업이 없습니다!");
+      toast.warn("No tasks to export!");
       return;
     }
     const fields = ["id", "todo", "username", "completed", "priority"];
@@ -315,11 +314,11 @@ const Home = () => {
           `"${todo.todo.replaceAll('"', '""')}"`,
           userObj.username || "",
           todo.completed === true
-            ? "완료됨"
+            ? "Completed"
             : todo.completed === false
-              ? "미완료"
-              : "새로운",
-          todo.priority ? "우선순위" : "",
+              ? "Incomplete"
+              : "New",
+          todo.priority ? "Priority" : "",
         ]
           .map((field) => JSON.stringify(field, replacer))
           .join(",");
@@ -404,11 +403,11 @@ const Home = () => {
         return axios.put(`${API_URL}/${id}`, { ...found, order: found.order });
       });
       await Promise.all(puts);
-      toast.success("작업이 저장되었습니다!");
+      toast.success("The task has been saved!");
       await fetchData();
     } catch (err) {
       toast.warn(
-        "순서 저장 중 일부 오류가 발생했습니다. 로컬 상태에 적용되었습니다."
+        "Some errors occurred while saving the order. It has been applied to the local state."
       );
     }
   };
@@ -417,7 +416,7 @@ const Home = () => {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center bg-white">
         <span className="text-blue-600 font-semibold text-lg mb-4">
-          로딩 중...
+          Loading...
         </span>
         <CircularProgress />
       </div>
@@ -429,6 +428,19 @@ const Home = () => {
   return (
     <section className="w-full min-h-screen flex justify-center bg-gray-50 dark:bg-gray-800">
       <div className="w-full flex-1 bg-white dark:bg-gray-700 shadow-xl p-0 transition">
+        {/* Language Switcher */}
+        {/* <div
+          style={{
+            display: "flex",
+            gap: 8,
+            margin: "16px 0",
+            justifyContent: "flex-end",
+          }}
+        >
+          <span>Language:</span>
+          <button onClick={() => i18n.changeLanguage("en")}>English</button>
+          <button onClick={() => i18n.changeLanguage("vi")}>Vietnamese</button>
+        </div> */}
         <div className="w-full flex flex-col gap-3 py-4 px-2">
           <div className="w-full flex flex-col md:flex-row md:gap-3 md:items-center md:justify-between max-w-md mx-auto md:max-w-full md:mx-0">
             {isAdmin && (
@@ -472,7 +484,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("all")}
             >
-              전체
+              All
             </button>
             <button
               className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
@@ -482,7 +494,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("completed")}
             >
-              완료됨
+              Completed
             </button>
             <button
               className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
@@ -492,7 +504,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("uncompleted")}
             >
-              미완료
+              Incomplete
             </button>
             <button
               className={`flex-1 px-5 py-2 rounded transition font-medium h-12 ${
@@ -502,7 +514,7 @@ const Home = () => {
               }`}
               onClick={() => setFilter("new")}
             >
-              새로운
+              New
             </button>
             <button
               className={`px-5 py-2 rounded transition font-medium h-12 ${
@@ -512,7 +524,7 @@ const Home = () => {
               }`}
               onClick={() => setPriorityFilter("all")}
             >
-              전체
+              All
             </button>
             <button
               className={`px-5 py-2 rounded transition font-medium h-12 ${
@@ -522,7 +534,7 @@ const Home = () => {
               }`}
               onClick={() => setPriorityFilter("priority")}
             >
-              우선순위 ⭐
+              Priority ⭐
             </button>
             <button
               className={`px-5 py-2 rounded transition font-medium h-12 ${
@@ -532,7 +544,7 @@ const Home = () => {
               }`}
               onClick={() => setPriorityFilter("normal")}
             >
-              일반
+              Normal
             </button>
           </div>
 
@@ -542,34 +554,34 @@ const Home = () => {
               onClick={() => handleBulkStatus(true)}
               disabled={selectedIds.length === 0}
             >
-              완료로 표시
+              Mark as completed
             </button>
             <button
               className="flex-1 px-3 py-2 bg-orange-600 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
               onClick={() => handleBulkStatus(false)}
               disabled={selectedIds.length === 0}
             >
-              미완료로 표시
+              Mark as incomplete
             </button>
             <button
               className="flex-1 px-3 py-2 bg-yellow-400 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
               onClick={() => handleBulkStatus(null)}
               disabled={selectedIds.length === 0}
             >
-              새로운로 표시
+              Mark as new
             </button>
             <button
               className="flex-1 px-3 py-2 bg-red-500 text-white rounded disabled:opacity-50 h-12 whitespace-nowrap"
               onClick={handleBulkDelete}
               disabled={selectedIds.length === 0}
             >
-              선택 삭제
+              Delete selected
             </button>
             <button
               className="flex-1 px-3 py-2 bg-blue-800 text-white rounded h-12 whitespace-nowrap"
               onClick={exportToCSV}
             >
-              CSV 내보내기 🡇
+              Export CSV 🡇
             </button>
           </div>
         </div>
@@ -589,32 +601,32 @@ const Home = () => {
         <div className="rounded-lg shadow mt-0">
           <div className="flex items-center justify-between px-4 py-2 bg-blue-100 dark:bg-gray-800 border border-b-0 border-blue-200 dark:border-gray-700">
             <h2 className="text-xl font-bold text-blue-700 dark:text-gray-100 tracking-wide">
-              투두 리스트 앱
+              Todo List App
             </h2>
             <div className="flex flex-wrap gap-3 md:gap-5 text-sm text-blue-800 dark:text-white font-semibold items-center">
               <span>
-                전체 <b>{totalTasks}</b>
+                All <b>{totalTasks}</b>
               </span>
               <span>
-                완료됨{" "}
+                Completed{" "}
                 <b>
                   {completedTasks} ({percentCompleted}%)
                 </b>
               </span>
               <span>
-                미완료{" "}
+                Incomplete{" "}
                 <b>
                   {uncompletedTasks} ({percentUncompleted}%)
                 </b>
               </span>
               <span>
-                새로운{" "}
+                New{" "}
                 <b>
                   {newTasks} ({percentNew}%)
                 </b>
               </span>
               <span>
-                우선순위{" "}
+                Priority{" "}
                 <b>
                   {totalPriority} ({percentPriority}%)
                 </b>
@@ -657,22 +669,22 @@ const Home = () => {
                           />
                         </th>
                         <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                          번호
+                          No.
                         </th>
                         <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                          사용자
+                          User
                         </th>
                         <th className="px-4 py-3 border-b text-left text-gray-900 dark:text-gray-100 font-bold">
-                          작업
+                          Task
                         </th>
                         <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                          우선순위
+                          Priority
                         </th>
                         <th className="px-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold">
-                          상태
+                          Status
                         </th>
                         <th className="px-2 pr-4 py-3 border-b text-center text-gray-900 dark:text-gray-100 font-bold w-1 whitespace-nowrap">
-                          동작
+                          Actions
                         </th>
                       </tr>
                     </thead>
@@ -683,7 +695,7 @@ const Home = () => {
                             colSpan={7}
                             className="text-center py-6 text-gray-400 dark:text-gray-500"
                           >
-                            작업이 없습니다.
+                            No tasks.
                           </td>
                         </tr>
                       )}
@@ -749,7 +761,7 @@ const Home = () => {
                                       ? "text-yellow-400"
                                       : "text-gray-400 dark:text-gray-600"
                                   }`}
-                                  title={`${todo.priority ? "우선순위 해제" : "우선순위로 지정"}`}
+                                  title={`${todo.priority ? "Remove priority" : "Set as priority"}`}
                                   onClick={() => handleTogglePriority(todo)}
                                   disabled={changingStatusId === todo.id}
                                 >
@@ -771,7 +783,7 @@ const Home = () => {
                                         : "bg-yellow-50 text-yellow-600 border-yellow-500")
                                   }
                                   style={{ margin: "0 auto" }}
-                                  title="상태 변경"
+                                  title="Change status"
                                   onClick={() => {
                                     if (changingStatusId === todo.id) return;
                                     let nextStatus;
@@ -793,10 +805,10 @@ const Home = () => {
                                     ? "..."
                                     : todo.completed === null ||
                                         todo.completed === undefined
-                                      ? "새로운"
+                                      ? "New"
                                       : todo.completed === false
-                                        ? "미완료"
-                                        : "완료됨"}
+                                        ? "Incomplete"
+                                        : "Completed"}
                                 </button>
                               </td>
                               <td className="px-2 pr-4 py-3 border-b text-center align-middle w-1 whitespace-nowrap">
@@ -816,7 +828,7 @@ const Home = () => {
                                           if (success) setEditingId(null);
                                         }}
                                       >
-                                        저장
+                                        Save
                                       </button>
                                       <button
                                         className={
@@ -825,14 +837,14 @@ const Home = () => {
                                         }
                                         onClick={() => setEditingId(null)}
                                       >
-                                        취소
+                                        Cancel
                                       </button>
                                     </>
                                   ) : (
                                     <>
                                       <VisibilityIcon
                                         className="w-5 h-5 text-blue-600 dark:text-blue-300 cursor-pointer hover:text-blue-400"
-                                        title="상세 보기"
+                                        title="View details"
                                         onClick={() => {
                                           setSelectedTask(todo);
                                           setShowDetail(true);
@@ -840,7 +852,7 @@ const Home = () => {
                                       />
                                       <EditIcon
                                         className="w-5 h-5 text-yellow-500 cursor-pointer hover:text-yellow-600"
-                                        title="수정"
+                                        title="Edit"
                                         onClick={() => {
                                           setEditingId(todo.id);
                                           setEditText(todo.todo);
@@ -848,7 +860,7 @@ const Home = () => {
                                       />
                                       <DeleteIcon
                                         className="w-5 h-5 text-red-500 cursor-pointer hover:text-red-600"
-                                        title="삭제"
+                                        title="Delete"
                                         onClick={() => handleDelete(todo.id)}
                                       />
                                     </>
@@ -875,7 +887,7 @@ const Home = () => {
                 disabled={page === 1}
                 className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white disabled:opacity-60"
               >
-                &lt; 이전
+                &lt; Previous
               </button>
               {Array.from({ length: totalPages }).map((_, idx) => (
                 <button
@@ -895,7 +907,7 @@ const Home = () => {
                 disabled={page === totalPages}
                 className="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white disabled:opacity-60"
               >
-                다음 &gt;
+                Next &gt;
               </button>
             </div>
           )}
@@ -905,34 +917,34 @@ const Home = () => {
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg min-w-[320px] max-w-[90vw]">
               <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
-                작업 상세
+                Task Details
               </h3>
               <div className="mb-2 text-gray-900 dark:text-gray-100">
-                <b>사용자:</b>{" "}
+                <b>User:</b>{" "}
                 {users.find((u) => String(u.id) === String(selectedTask.userId))
                   ?.username || selectedTask.userId}
               </div>
               <div className="mb-2 text-gray-900 dark:text-gray-100">
-                <b>작업:</b> {selectedTask.todo}
+                <b>Task:</b> {selectedTask.todo}
               </div>
               <div className="mb-2 text-gray-900 dark:text-gray-100">
-                <b>우선순위:</b>{" "}
-                {selectedTask.priority ? "우선순위 ⭐" : "일반"}
+                <b>Priority:</b>{" "}
+                {selectedTask.priority ? "Priority ⭐" : "Normal"}
               </div>
               <div className="mb-4 text-gray-900 dark:text-gray-100">
-                <b>상태:</b>{" "}
+                <b>Status:</b>{" "}
                 {selectedTask.completed === null ||
                 selectedTask.completed === undefined
-                  ? "새로운"
+                  ? "New"
                   : selectedTask.completed === false
-                    ? "대기중"
-                    : "완료됨"}
+                    ? "Pending"
+                    : "Completed"}
               </div>
               <button
                 className="mt-2 px-5 py-2 bg-blue-600 text-white rounded-lg font-medium"
                 onClick={() => setShowDetail(false)}
               >
-                닫기
+                Close
               </button>
             </div>
           </div>

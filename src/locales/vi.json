@@ -1,0 +1,21 @@
+{
+  "todo_app": "Ứng dụng Quản lý Công việc",
+  "all": "Tất cả",
+  "completed": "Hoàn thành",
+  "uncompleted": "Chưa hoàn thành",
+  "new": "Mới",
+  "priority": "Ưu tiên",
+  "normal": "Bình thường",
+  "add_task": "Thêm công việc",
+  "task_placeholder": "Nhập công việc...",
+  "user": "Người dùng",
+  "status": "Trạng thái",
+  "actions": "Thao tác",
+  "detail": "Chi tiết",
+  "edit": "Sửa",
+  "delete": "Xóa",
+  "close": "Đóng",
+  "language": "Ngôn ngữ",
+  "english": "Tiếng Anh",
+  "vietnamese": "Tiếng Việt"
+}

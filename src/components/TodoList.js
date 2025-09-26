@@ -54,18 +54,22 @@ const TodoList = ({
                         onChange={() => onSelectTask(todo.id)}
                       />
                     </td>
-                    {/* 번호 */}
+                    {/* Number */}
                     <td className="px-3 py-3 text-center">
                       {(page - 1) * itemsPerPage + idx + 1}
                     </td>
-                    {/* 사용자 */}
+                    {/* User */}
                     <td className="px-3 py-3 text-center">
                       {users.find((u) => String(u.id) === String(todo.userId))
                         ?.username || "N/A"}
                     </td>
-                    {/* 작업 */}
+                    {/* Task */}
                     <td
-                      className={`px-3 py-3 text-left break-words max-w-xs sm:max-w-md ${todo.completed ? "line-through text-gray-400 dark:text-gray-500" : "text-gray-900 dark:text-gray-100"}`}
+                      className={`px-3 py-3 text-left break-words max-w-xs sm:max-w-md ${
+                        todo.completed
+                          ? "line-through text-gray-400 dark:text-gray-500"
+                          : "text-gray-900 dark:text-gray-100"
+                      }`}
                     >
                       {editingId === todo.id ? (
                         <input
@@ -78,20 +82,30 @@ const TodoList = ({
                         todo.todo
                       )}
                     </td>
-                    {/* 우선순위 */}
+                    {/* Priority */}
                     <td className="px-3 py-3 text-center">
                       <button
-                        className={`text-lg ${todo.priority ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"}`}
+                        className={`text-lg ${
+                          todo.priority
+                            ? "text-yellow-400"
+                            : "text-gray-300 dark:text-gray-600"
+                        }`}
                         onClick={() => handleTogglePriority(todo)}
                         disabled={changingStatusId === todo.id}
                       >
                         {todo.priority ? "★" : "☆"}
                       </button>
                     </td>
-                    {/* trạng thái */}
+                    {/* Status */}
                     <td className="px-3 py-3 text-center">
                       <button
-                        className={`px-3 py-1 rounded-full border text-xs font-medium transition ${todo.completed === true ? "bg-green-50 text-green-600 border-green-400" : todo.completed === false ? "bg-red-50 text-red-600 border-red-400" : "bg-yellow-50 text-yellow-600 border-yellow-400"} ${changingStatusId === todo.id ? "opacity-50" : ""}`}
+                        className={`px-3 py-1 rounded-full border text-xs font-medium transition ${
+                          todo.completed === true
+                            ? "bg-green-50 text-green-600 border-green-400"
+                            : todo.completed === false
+                              ? "bg-red-50 text-red-600 border-red-400"
+                              : "bg-yellow-50 text-yellow-600 border-yellow-400"
+                        } ${changingStatusId === todo.id ? "opacity-50" : ""}`}
                         onClick={() => {
                           if (changingStatusId === todo.id) return;
                           let nextStatus;
@@ -113,13 +127,13 @@ const TodoList = ({
                           ? "..."
                           : todo.completed === null ||
                               todo.completed === undefined
-                            ? "새로운"
+                            ? "New"
                             : todo.completed === false
-                              ? "미완료"
-                              : "완료됨"}
+                              ? "Incomplete"
+                              : "Completed"}
                       </button>
                     </td>
-                    {/* 동작 */}
+                    {/* Actions */}
                     <td className="px-3 py-3 text-center">
                       <div className="flex justify-center gap-2">
                         {editingId === todo.id ? (
@@ -134,26 +148,26 @@ const TodoList = ({
                                 if (success) setEditingId(null);
                               }}
                             >
-                              저장
+                              Save
                             </button>
                             <button
                               className="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 text-xs"
                               onClick={() => setEditingId(null)}
                             >
-                              취소
+                              Cancel
                             </button>
                           </>
                         ) : (
                           <>
                             <button
-                              title="상세 보기"
+                              title="View Details"
                               className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-gray-700"
                               onClick={() => onDetail(todo)}
                             >
                               🔍
                             </button>
                             <button
-                              title="수정"
+                              title="Edit"
                               className="p-2 rounded-full hover:bg-yellow-100 dark:hover:bg-gray-700"
                               onClick={() => {
                                 setEditingId(todo.id);
@@ -163,7 +177,7 @@ const TodoList = ({
                               ✏️
                             </button>
                             <button
-                              title="삭제"
+                              title="Delete"
                               className="p-2 rounded-full hover:bg-red-100 dark:hover:bg-gray-700"
                               onClick={() => onDelete(todo.id)}
                             >
